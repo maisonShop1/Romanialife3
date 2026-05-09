@@ -1,33 +1,40 @@
 <!DOCTYPE html>
 <html lang="ro">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Viața în România</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 40px;
-            background: #0a0a1a;
-            color: #d4a843;
-            font-family: Arial, sans-serif;
-            text-align: center;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-        h1 { font-size: 3.2rem; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Viața în România</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--gold:#d4a843;--deep:#0a0a1a;--mid:#141430;--text:#e8e0d0}
+body{background:var(--deep);color:var(--text);font-family:'Crimson Text',serif;overflow:hidden;height:100vh;width:100vw}
+
+#intro-scene{position:fixed;inset:0;z-index:1000;background:radial-gradient(ellipse at center, #0d0d2b 0%, #000 70%);display:flex;align-items:center;justify-content:center;flex-direction:column}
+#stars-canvas{position:absolute;inset:0}
+#game-ui{position:fixed;inset:0;z-index:100;display:none;flex-direction:column}
+</style>
 </head>
 <body>
-    <h1>🎮 VIAȚA ÎN ROMÂNIA</h1>
-    <p style="font-size: 1.5rem; margin: 20px 0;">Jocul ar trebui să apară acum...</p>
-    
-    <script>
-        console.log("%cJocul s-a încărcat!", "color:#d4a843;font-size:16px");
-        document.body.innerHTML += "<br><br><strong style='color:#2ecc71'>✅ Dacă vezi mesajul ăsta = merge!</strong>";
-    </script>
+
+<div id="intro-scene">
+  <h1 style="color:var(--gold);font-size:3rem">VIAȚA ÎN ROMÂNIA</h1>
+  <p>Se încarcă jocul complet...</p>
+</div>
+
+<div id="game-ui">
+  <h2 style="color:#d4a843;text-align:center;margin-top:50px">🎮 Jocul complet este încărcat!</h2>
+  <p style="text-align:center">Dacă vezi mesajul ăsta, înseamnă că structura de bază merge.</p>
+</div>
+
+<script>
+// === AICI VOM PUNE JOCUL COMPLET ===
+console.log("🎮 Viața în România - versiunea completă încărcată pe GitHub!");
+
+setTimeout(() => {
+  document.getElementById('intro-scene').style.display = 'none';
+  document.getElementById('game-ui').style.display = 'flex';
+}, 1500);
+</script>
 </body>
 </html>
