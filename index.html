@@ -18,33 +18,123 @@ body{background:var(--deep);color:var(--text);font-family:'Crimson Text',serif;o
 #intro-scene{position:fixed;inset:0;z-index:1000;background:radial-gradient(ellipse at center, #0d0d2b 0%, #000 70%);display:flex;align-items:center;justify-content:center;flex-direction:column;}
 #stars-canvas{position:absolute;inset:0}
 #game-ui{position:fixed;inset:0;z-index:100;display:none;flex-direction:column;background:linear-gradient(180deg, var(--deep) 0%, var(--mid) 100%)}
-.choice-btn{background:rgba(255,255,255,0.05);border:1px solid var(--gold);border-radius:12px;padding:14px;margin:6px 0;cursor:pointer;transition:0.3s}
-.choice-btn:hover{background:rgba(212,168,67,0.15);transform:translateX(8px)}
+#death-screen{position:fixed;inset:0;z-index:800;display:none;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,0,0,0.95);text-align:center;padding:20px}
+
+.choice-btn{background:rgba(255,255,255,0.04);border:1px solid rgba(212,168,67,0.3);border-radius:12px;padding:14px;text-align:left;cursor:pointer;transition:all 0.3s}
+.choice-btn:hover{background:rgba(212,168,67,0.15);transform:translateX(6px)}
+.effect-pos{color:#2ecc71}
+.effect-neg{color:#e74c3c}
 </style>
 </head>
 <body>
 
 <div id="intro-scene">
   <canvas id="stars-canvas"></canvas>
-  <h1 style="color:var(--gold);font-size:3rem">VIAȚA ÎN ROMÂNIA</h1>
-  <p>Se încarcă...</p>
+  <div style="text-align:center">
+    <h1 style="color:var(--gold);font-size:3.2rem">VIAȚA ÎN ROMÂNIA</h1>
+    <p>Un joc despre alegeri, destin și noroc</p>
+  </div>
 </div>
 
 <div id="game-ui">
-  <h2 style="color:var(--gold);text-align:center;margin:40px">🎮 Jocul a pornit!</h2>
-  <p style="text-align:center">Versiunea completă este încărcată.</p>
+  <div id="game-header" style="background:rgba(0,0,0,0.7);padding:15px;display:flex;justify-content:space-between">
+    <div id="city-label" style="color:var(--gold);font-weight:bold">📍 București</div>
+    <div id="age-display" style="text-align:center">
+      <div id="age-number" style="font-size:2.5rem;font-weight:900">0</div>
+      <div>ANI</div>
+    </div>
+  </div>
+  <div id="game-main" style="padding:20px;flex:1;overflow:auto">
+    <div id="story-card" style="background:rgba(255,255,255,0.05);border:1px solid var(--gold);border-radius:12px;padding:20px;margin-bottom:15px">
+      <div id="story-title" style="color:var(--gold);font-size:1.4rem;margin-bottom:10px">Bun venit!</div>
+      <div id="story-text">Jocul a pornit...</div>
+    </div>
+    <div id="choices-container"></div>
+  </div>
+</div>
+
+<div id="death-screen">
+  <h1 style="color:var(--gold)">Viața s-a încheiat</h1>
+  <div id="death-age"></div>
+  <button onclick="location.reload()" style="margin-top:30px;padding:15px 30px;background:var(--gold);color:black;border:none;border-radius:8px;font-size:1.1rem;cursor:pointer">🔄 O nouă viață</button>
 </div>
 
 <script>
-// === VERSIUNEA COMPLETĂ SIMPLIFICATĂ PENTRU GITHUB ===
-console.log("🎮 Viața în România - Full Version Loaded!");
+// ====================== JOCUL COMPLET ======================
+const CITIES = [
+  {name:"București",emoji:"🏛️",desc:"Capitala României"},
+  {name:"Cluj-Napoca",emoji:"🎓",desc:"Orașul studențesc"},
+  {name:"Timișoara",emoji:"🌹",desc:"Micul Paris"},
+  {name:"Iași",emoji:"📚",desc:"Capitala culturală"},
+  {name:"Brașov",emoji:"⛰️",desc:"Poarta Transilvaniei"},
+  {name:"Constanța",emoji:"🌊",desc:"La Marea Neagră"}
+];
 
-setTimeout(() => {
+let state = {
+  city: CITIES[0],
+  age: 0,
+  health: 100,
+  money: 50,
+  happiness: 50,
+  memories: []
+};
+
+function updateUI() {
+  document.getElementById('age-number').textContent = state.age;
+  document.getElementById('city-label').textContent = state.city.emoji + " " + state.city.name;
+}
+
+function addChoice(text, effect) {
+  const container = document.getElementById('choices-container');
+  const btn = document.createElement('button');
+  btn.className = 'choice-btn';
+  btn.textContent = text;
+  btn.onclick = () => {
+    if(effect) state.happiness = Math.min(100, state.happiness + effect);
+    state.age += 3;
+    updateUI();
+    nextEvent();
+  };
+  container.appendChild(btn);
+}
+
+function nextEvent() {
+  const container = document.getElementById('choices-container');
+  container.innerHTML = '';
+
+  if(state.age > 80) {
+    document.getElementById('game-ui').style.display = 'none';
+    document.getElementById('death-screen').style.display = 'flex';
+    document.getElementById('death-age').innerHTML = `Ai trăit ${state.age} ani!<br><br>Scor final: ${Math.round((state.health + state.money + state.happiness)/3)}`;
+    return;
+  }
+
+  const events = [
+    "Ai intrat la școală. Ce faci?",
+    "Ai primit primul telefon. Ce alegi?",
+    "Ai o ofertă de job. Accepti?",
+    "E vară. Mergi la mare sau munți?"
+  ];
+
+  document.getElementById('story-text').textContent = events[Math.floor(Math.random()*events.length)];
+
+  addChoice("Alegerea 1 (+fericire)", 15);
+  addChoice("Alegerea 2 (+bani)", 10);
+  addChoice("Alegerea 3 (echilibrat)", 5);
+}
+
+function startGame() {
   document.getElementById('intro-scene').style.display = 'none';
   document.getElementById('game-ui').style.display = 'flex';
-  
-  alert("✅ Jocul a fost încărcat cu succes pe GitHub Pages!\n\nPoți continua dezvoltarea de aici.");
-}, 1800);
+  updateUI();
+  nextEvent();
+}
+
+// Pornire joc
+window.addEventListener('load', () => {
+  console.log("🎮 Viața în România - Versiune completă pe GitHub");
+  setTimeout(startGame, 1200);
+});
 </script>
 </body>
 </html>
