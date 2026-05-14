@@ -3,1082 +3,1515 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Viața în România</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<title>Viața Mihaelei 🌸</title>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Nunito:wght@400;600;700;900&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --gold:#d4a843;
-  --deep:#0a0a1a;
-  --mid:#141430;
-  --city:#1a1a40;
-  --text:#e8e0d0;
-  --accent:#ff6b35;
-  --green:#2ecc71;
-  --red:#e74c3c;
-  --blue:#3498db;
+:root {
+  --pink: #ff69b4;
+  --hot-pink: #ff1493;
+  --light-pink: #ffb6c1;
+  --pale-pink: #ffe4e1;
+  --dark-pink: #c71585;
+  --purple: #da70d6;
+  --white: #fff9fc;
+  --shadow: 0 8px 32px rgba(255,105,180,0.3);
 }
-body{background:var(--deep);color:var(--text);font-family:'Crimson Text',serif;overflow:hidden;height:100vh;width:100vw}
 
-#intro-scene{
-  position:fixed;inset:0;z-index:1000;
-  background:radial-gradient(ellipse at center, #0d0d2b 0%, #000 70%);
-  display:flex;align-items:center;justify-content:center;flex-direction:column;
-}
-#stars-canvas{position:absolute;inset:0}
-#planet-container{
-  position:relative;width:300px;height:300px;
-  animation:planet-zoom 4s ease-in forwards;animation-delay:1s;
-}
-@keyframes planet-zoom{
-  0%{transform:scale(0.05) translateY(40vh);opacity:0}
-  30%{opacity:1}
-  100%{transform:scale(8) translateY(0);opacity:0}
-}
-#planet{
-  width:300px;height:300px;border-radius:50%;
-  background:radial-gradient(circle at 35% 35%, #4a9eff, #1a5c8a 40%, #0d2d4a 70%, #050f1a);
-  box-shadow:0 0 60px rgba(74,158,255,0.4), inset -20px -20px 40px rgba(0,0,0,0.6);
-  position:relative;overflow:hidden;
-}
-.continent{position:absolute;background:rgba(34,100,50,0.8);border-radius:40% 60% 50% 30%}
-#c1{width:80px;height:50px;top:80px;left:60px;transform:rotate(-20deg)}
-#c2{width:60px;height:40px;top:140px;left:160px;transform:rotate(10deg)}
-#c3{width:40px;height:60px;top:50px;left:180px;transform:rotate(30deg)}
-#city-dot{
-  position:absolute;width:8px;height:8px;border-radius:50%;
-  background:#ffff00;box-shadow:0 0 12px #ffff00, 0 0 24px rgba(255,255,0,0.5);
-  top:95px;left:140px;animation:pulse-dot 0.5s infinite alternate;
-}
-@keyframes pulse-dot{from{transform:scale(1)}to{transform:scale(1.6)}}
-#intro-text{
-  position:absolute;bottom:20%;color:white;text-align:center;
-  font-family:'Playfair Display',serif;
-  opacity:0;animation:fade-in-text 1s ease forwards;animation-delay:0.5s;
-}
-@keyframes fade-in-text{to{opacity:1}}
-#intro-title{font-size:2.5rem;font-weight:900;color:var(--gold);letter-spacing:2px}
-#intro-sub{font-size:1.1rem;margin-top:8px;opacity:0.7}
-#intro-city-name{
-  font-size:1.8rem;font-weight:700;color:white;
-  margin-top:16px;letter-spacing:4px;text-transform:uppercase;
-  animation:flicker 0.3s steps(1) 2s 6 alternate;
-}
-@keyframes flicker{50%{opacity:0}}
+* { margin:0; padding:0; box-sizing:border-box; }
 
-#city-reveal{
-  position:fixed;inset:0;z-index:900;
-  display:none;align-items:center;justify-content:center;background:#000;
+body {
+  font-family: 'Nunito', sans-serif;
+  background: linear-gradient(135deg, #ffe0f0, #ffc8e8, #ffb6d9);
+  min-height: 100vh;
+  overflow: hidden;
 }
-#city-skyline{
-  width:100%;text-align:center;
-  opacity:0;transform:translateY(80px);transition:all 1.5s ease;
-}
-#city-skyline.visible{opacity:1;transform:translateY(0)}
-#city-reveal-name{font-family:'Playfair Display',serif;font-size:3rem;font-weight:900;color:var(--gold);margin-top:20px;letter-spacing:6px}
-#city-reveal-year{color:var(--text);font-size:1.2rem;margin-top:8px;opacity:0.7}
 
-#game-ui{
-  position:fixed;inset:0;z-index:100;
-  display:none;flex-direction:column;
-  background:linear-gradient(180deg, var(--deep) 0%, var(--mid) 100%);
+/* ===== FLOATING HEARTS ===== */
+.hearts-bg { position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
+.heart-float {
+  position:absolute; font-size:1.5rem; opacity:0.15;
+  animation: floatUp linear infinite;
 }
-#game-bg{position:absolute;inset:0;overflow:hidden;pointer-events:none}
-.bg-particle{
-  position:absolute;border-radius:50%;
-  background:rgba(212,168,67,0.05);
-  animation:float-p 8s infinite ease-in-out;
+@keyframes floatUp {
+  0%   { transform: translateY(110vh) rotate(0deg); opacity:0.15; }
+  100% { transform: translateY(-10vh) rotate(360deg); opacity:0; }
 }
-@keyframes float-p{0%,100%{transform:translateY(0)}50%{transform:translateY(-30px)}}
 
-#game-header{
-  position:relative;z-index:10;
-  background:rgba(0,0,0,0.6);
-  border-bottom:1px solid rgba(212,168,67,0.2);
-  padding:10px 14px;
-  display:flex;align-items:center;justify-content:space-between;
-  backdrop-filter:blur(10px);
-  flex-shrink:0;
-  gap:8px;
-}
-#city-label{font-family:'Playfair Display',serif;font-size:0.95rem;color:var(--gold);font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100px}
-#age-display{text-align:center;font-family:'Playfair Display',serif;flex-shrink:0}
-#age-number{font-size:2rem;font-weight:900;color:white;line-height:1}
-#age-label{font-size:0.6rem;color:var(--gold);letter-spacing:2px;text-transform:uppercase}
-#life-phase{font-size:0.65rem;color:rgba(255,255,255,0.5);margin-top:1px;white-space:nowrap}
-#stats-row{display:flex;gap:8px;align-items:center;flex-shrink:0}
-.stat-mini{text-align:center}
-.stat-mini-val{font-size:0.85rem;font-weight:700;color:var(--gold)}
-.stat-mini-bar{width:36px;height:4px;background:rgba(255,255,255,0.1);border-radius:2px;margin-top:2px;overflow:hidden}
-.stat-mini-fill{height:100%;border-radius:2px;transition:width 0.5s ease}
-.stat-mini-label{font-size:0.55rem;color:rgba(255,255,255,0.4);margin-top:1px;letter-spacing:1px;text-transform:uppercase}
+/* ===== SCREEN SYSTEM ===== */
+.screen { position:fixed; inset:0; display:none; flex-direction:column; align-items:center; justify-content:center; z-index:10; }
+.screen.active { display:flex; }
 
-#game-main{flex:1;overflow-y:auto;padding:12px;position:relative;z-index:5;display:flex;flex-direction:column;gap:12px}
+/* ===== INTRO SCREEN - ROOM ===== */
+#intro-screen {
+  background: linear-gradient(180deg, #2a1a2e 0%, #3d1a4e 40%, #8b5a7a 70%, #c4927a 100%);
+  perspective: 800px;
+}
 
-#story-card{
-  background:rgba(255,255,255,0.04);
-  border:1px solid rgba(212,168,67,0.15);
-  border-radius:14px;padding:16px;
-  backdrop-filter:blur(6px);
-  position:relative;overflow:hidden;
+.room {
+  position:relative; width:100vw; height:100vh; overflow:hidden;
 }
-#story-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:2px;
-  background:linear-gradient(90deg,transparent,var(--gold),transparent);
-}
-#story-age-badge{
-  display:inline-block;
-  background:rgba(212,168,67,0.15);
-  border:1px solid rgba(212,168,67,0.3);
-  color:var(--gold);font-size:0.65rem;letter-spacing:2px;text-transform:uppercase;
-  padding:3px 10px;border-radius:20px;margin-bottom:10px;
-}
-#story-title{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;margin-bottom:8px;color:white;line-height:1.3}
-#story-text{font-size:0.95rem;line-height:1.65;color:rgba(232,224,208,0.85)}
 
-#choices-container{display:flex;flex-direction:column;gap:8px}
-.choice-btn{
-  background:rgba(255,255,255,0.04);
-  border:1px solid rgba(212,168,67,0.2);
-  border-radius:12px;padding:12px 14px;
-  text-align:left;cursor:pointer;
-  font-family:'Crimson Text',serif;font-size:0.95rem;color:var(--text);
-  transition:all 0.25s ease;
-  display:flex;align-items:flex-start;gap:10px;
+/* Floor */
+.floor {
+  position:absolute; bottom:0; left:0; right:0; height:30%;
+  background: repeating-linear-gradient(90deg, #8b6563 0px, #8b6563 60px, #7a5a58 60px, #7a5a58 120px);
+  border-top: 4px solid #6a4543;
+}
+
+/* Walls */
+.wall-left, .wall-right {
+  position:absolute; top:0; width:15%; height:70%;
+  background: linear-gradient(90deg, #1a0a2e, #2a1a4e);
+}
+.wall-left { left:0; }
+.wall-right { right:0; }
+
+/* Back wall */
+.back-wall {
+  position:absolute; top:0; left:15%; right:15%; height:70%;
+  background: linear-gradient(180deg, #1e0e3a, #2d1a52);
+}
+
+/* Poster on wall */
+.poster {
+  position:absolute; top:8%; left:20%; width:120px; height:80px;
+  background: linear-gradient(135deg, #ff69b4, #ff1493);
+  border: 4px solid #ffd700; border-radius:4px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.8rem; box-shadow:0 0 20px rgba(255,105,180,0.6);
+}
+
+/* String lights */
+.lights {
+  position:absolute; top:5%; left:15%; right:15%; height:30px;
+  display:flex; justify-content:space-around; align-items:center;
+}
+.light-bulb {
+  width:12px; height:14px; border-radius:50% 50% 40% 40%;
+  animation: twinkle 1s ease-in-out infinite alternate;
+}
+@keyframes twinkle { from{opacity:1;} to{opacity:0.3;} }
+
+/* Door */
+.door {
+  position:absolute; bottom:30%; left:50%; transform:translateX(-50%);
+  width:120px; height:160px;
+  background: linear-gradient(180deg, #6b3a2a, #4a2a1a);
+  border: 6px solid #8b5a3a; border-radius:8px 8px 0 0;
+  cursor:pointer; transition:transform 0.5s;
+  transform-origin: left center;
+  box-shadow: inset -10px 0 20px rgba(0,0,0,0.4), 0 0 30px rgba(255,105,180,0.3);
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px;
+}
+.door:hover { filter: brightness(1.2); }
+.door-sign {
+  background: linear-gradient(135deg, #ff69b4, #ff1493);
+  color:white; font-family:'Pacifico',cursive; font-size:1.1rem;
+  padding: 6px 12px; border-radius:6px; border:2px solid #ffd700;
+  box-shadow:0 0 10px rgba(255,105,180,0.8);
+  text-shadow: 0 0 10px #ff69b4;
+}
+.door-handle {
+  width:14px; height:14px; background:#ffd700;
+  border-radius:50%; margin-top:20px;
+  box-shadow:0 0 8px #ffd700;
+}
+.door-text { color:#ffd700; font-size:0.7rem; text-align:center; opacity:0.8; }
+
+/* Bed */
+.bed {
+  position:absolute; bottom:30%; right:18%;
+  width:90px; height:55px;
+}
+.bed-frame { width:100%; height:100%; background:#6b3a2a; border-radius:4px; border:3px solid #8b5a3a; }
+.bed-pillow {
+  position:absolute; top:5px; left:8px; width:35px; height:22px;
+  background:#ff69b4; border-radius:6px; border:2px solid #ff1493;
+}
+.bed-blanket {
+  position:absolute; bottom:0; left:0; right:0; height:35px;
+  background:linear-gradient(90deg,#ff69b4,#da70d6,#ff1493);
+  border-radius:0 0 4px 4px;
+}
+
+/* Desk */
+.desk {
+  position:absolute; bottom:30%; left:18%;
+  width:80px; height:50px;
+}
+.desk-top { width:100%; height:12px; background:#8b6563; border-radius:3px; }
+.desk-legs { display:flex; justify-content:space-between; padding:0 5px; }
+.desk-leg { width:8px; height:38px; background:#7a5a58; }
+.monitor {
+  position:absolute; top:-50px; left:10px; width:60px; height:45px;
+  background:#111; border-radius:4px; border:3px solid #333;
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.2rem;
+}
+
+.room-title {
+  position:absolute; top:5%; left:50%; transform:translateX(-50%);
+  color:white; font-family:'Pacifico',cursive; font-size:2rem;
+  text-shadow:0 0 20px #ff69b4, 0 2px 4px rgba(0,0,0,0.5);
+  animation: glow 2s ease-in-out infinite alternate; text-align:center;
+}
+@keyframes glow { from{text-shadow:0 0 20px #ff69b4;} to{text-shadow:0 0 40px #ff1493, 0 0 60px #ff69b4;} }
+
+.click-hint {
+  position:absolute; bottom:20%; left:50%; transform:translateX(-50%);
+  color:#ffb6c1; font-size:0.9rem; animation: bounce 1s infinite;
+  text-align:center;
+}
+@keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0);} 50%{transform:translateX(-50%) translateY(-8px);} }
+
+/* ===== MAIN GAME SCREEN ===== */
+#game-screen {
+  background: linear-gradient(135deg, #ffe0f0, #ffd6eb, #ffcce6);
+  flex-direction:row; align-items:stretch; justify-content:flex-start;
+  padding:0; overflow:hidden;
+}
+
+.game-container {
+  display:grid; grid-template-columns: 280px 1fr 280px;
+  width:100%; height:100vh; gap:0;
+}
+
+/* LEFT PANEL - Stats */
+.left-panel {
+  background: rgba(255,255,255,0.7); backdrop-filter:blur(10px);
+  border-right:3px solid #ffb6c1; padding:16px; overflow-y:auto;
+  display:flex; flex-direction:column; gap:12px;
+}
+
+.avatar-box {
+  background:linear-gradient(135deg,#ff69b4,#da70d6);
+  border-radius:16px; padding:12px; text-align:center;
+  box-shadow:var(--shadow);
+}
+.avatar-emoji { font-size:3.5rem; display:block; }
+.avatar-name { font-family:'Pacifico',cursive; color:white; font-size:1.1rem; margin-top:4px; }
+.avatar-age { color:rgba(255,255,255,0.85); font-size:0.85rem; }
+
+.stats-box {
+  background:rgba(255,255,255,0.8); border-radius:12px; padding:12px;
+  border:2px solid #ffb6c1;
+}
+.stats-title { font-family:'Pacifico',cursive; color:#c71585; font-size:0.9rem; margin-bottom:8px; }
+.stat-row { margin-bottom:8px; }
+.stat-label { display:flex; justify-content:space-between; font-size:0.75rem; color:#888; margin-bottom:3px; }
+.stat-bar { height:10px; background:#ffe4e1; border-radius:99px; overflow:hidden; }
+.stat-fill {
+  height:100%; border-radius:99px; transition:width 0.5s ease;
+}
+.stat-fill.health { background:linear-gradient(90deg,#ff6b9d,#ff1493); }
+.stat-fill.happy  { background:linear-gradient(90deg,#ffd700,#ff8c00); }
+.stat-fill.smart  { background:linear-gradient(90deg,#7ec8e3,#0080ff); }
+.stat-fill.looks  { background:linear-gradient(90deg,#da70d6,#ff69b4); }
+.stat-fill.mood   { background:linear-gradient(90deg,#98fb98,#00c957); }
+
+.money-box {
+  background:linear-gradient(135deg,#ffd700,#ff8c00);
+  border-radius:12px; padding:10px; text-align:center;
+  box-shadow:0 4px 15px rgba(255,165,0,0.3);
+}
+.money-label { font-size:0.75rem; color:rgba(255,255,255,0.85); }
+.money-amount { font-family:'Pacifico',cursive; color:white; font-size:1.4rem; }
+
+.age-btn {
+  background:linear-gradient(135deg,#ff69b4,#ff1493);
+  color:white; border:none; border-radius:12px; padding:12px;
+  font-family:'Pacifico',cursive; font-size:1rem; cursor:pointer;
+  box-shadow:var(--shadow); transition:transform 0.1s;
   width:100%;
 }
-.choice-btn:active{
-  background:rgba(212,168,67,0.1);
-  border-color:rgba(212,168,67,0.5);
+.age-btn:hover { transform:scale(1.03); }
+.age-btn:active { transform:scale(0.97); }
+
+/* CENTER - Main gameplay */
+.center-panel {
+  display:flex; flex-direction:column; overflow-y:auto; padding:16px;
+  gap:12px;
 }
-@media(hover:hover){
-  .choice-btn:hover{
-    background:rgba(212,168,67,0.1);
-    border-color:rgba(212,168,67,0.5);
-    transform:translateX(4px);
+
+.top-bar {
+  background:rgba(255,255,255,0.8); backdrop-filter:blur(10px);
+  border-radius:16px; padding:10px 16px;
+  border:2px solid #ffb6c1;
+  display:flex; gap:8px; align-items:center; flex-wrap:wrap;
+}
+.nav-btn {
+  background:linear-gradient(135deg,#ff69b4,#da70d6);
+  color:white; border:none; border-radius:8px; padding:6px 12px;
+  font-family:'Nunito',sans-serif; font-size:0.8rem; font-weight:700;
+  cursor:pointer; transition:all 0.2s;
+}
+.nav-btn:hover { transform:scale(1.05); box-shadow:0 4px 12px rgba(255,105,180,0.4); }
+.nav-btn.active { background:linear-gradient(135deg,#c71585,#8b0057); }
+
+.event-box {
+  background:rgba(255,255,255,0.9); border-radius:16px; padding:20px;
+  border:2px solid #ffb6c1; box-shadow:var(--shadow); min-height:120px;
+}
+.event-title { font-family:'Pacifico',cursive; color:#c71585; font-size:1rem; margin-bottom:10px; }
+.event-text { color:#555; font-size:0.9rem; line-height:1.5; }
+
+.actions-grid {
+  display:grid; grid-template-columns:1fr 1fr; gap:10px;
+}
+.action-btn {
+  background:linear-gradient(135deg,#ffb6c1,#ff69b4);
+  border:2px solid #ff69b4; border-radius:12px; padding:12px 8px;
+  font-family:'Nunito',sans-serif; font-weight:700; font-size:0.82rem;
+  color:#7a0040; cursor:pointer; transition:all 0.2s; text-align:center;
+  display:flex; flex-direction:column; align-items:center; gap:4px;
+}
+.action-btn:hover { transform:scale(1.04); box-shadow:0 6px 20px rgba(255,105,180,0.4); background:linear-gradient(135deg,#ff69b4,#ff1493); color:white; }
+.action-icon { font-size:1.3rem; }
+
+.log-box {
+  background:rgba(255,255,255,0.7); border-radius:12px; padding:12px;
+  border:2px solid #ffb6c1; max-height:200px; overflow-y:auto;
+}
+.log-title { font-family:'Pacifico',cursive; color:#c71585; font-size:0.85rem; margin-bottom:6px; }
+.log-entry { font-size:0.78rem; color:#666; padding:4px 0; border-bottom:1px solid #ffe4e1; }
+.log-entry:last-child { border:none; }
+
+/* RIGHT PANEL - Phone */
+.right-panel {
+  background: rgba(255,255,255,0.5); backdrop-filter:blur(10px);
+  border-left:3px solid #ffb6c1; padding:16px;
+  display:flex; flex-direction:column; align-items:center; gap:10px;
+  overflow-y:auto;
+}
+.phone-label { font-family:'Pacifico',cursive; color:#c71585; font-size:0.9rem; }
+
+/* iPhone 12 */
+.iphone {
+  width:200px; height:420px;
+  background:linear-gradient(180deg,#1a1a2e,#16213e);
+  border-radius:44px; position:relative;
+  border:8px solid #2a2a4e;
+  box-shadow:0 0 0 1px #333, 0 20px 60px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.05);
+  overflow:hidden;
+}
+/* Dynamic island simulation */
+.dynamic-island {
+  position:absolute; top:12px; left:50%; transform:translateX(-50%);
+  width:80px; height:22px; background:#000; border-radius:20px; z-index:10;
+}
+/* Side button */
+.side-btn-r { position:absolute; right:-10px; top:80px; width:4px; height:50px; background:#333; border-radius:0 4px 4px 0; }
+.side-btn-l1 { position:absolute; left:-10px; top:70px; width:4px; height:30px; background:#333; border-radius:4px 0 0 4px; }
+.side-btn-l2 { position:absolute; left:-10px; top:115px; width:4px; height:40px; background:#333; border-radius:4px 0 0 4px; }
+.side-btn-l3 { position:absolute; left:-10px; top:165px; width:4px; height:40px; background:#333; border-radius:4px 0 0 4px; }
+
+.phone-screen {
+  width:100%; height:100%; border-radius:38px; overflow:hidden;
+  display:flex; flex-direction:column;
+}
+.phone-status-bar {
+  height:44px; background:rgba(0,0,0,0.3);
+  display:flex; align-items:flex-end; justify-content:space-between;
+  padding:4px 16px 6px; font-size:0.6rem; color:white; font-weight:700;
+}
+.phone-home {
+  flex:1; overflow:hidden; position:relative;
+}
+
+/* Phone screens */
+.p-screen { position:absolute; inset:0; display:none; flex-direction:column; overflow:hidden; }
+.p-screen.active { display:flex; }
+
+/* Home screen */
+#ph-home {
+  background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);
+}
+.ph-wallpaper {
+  position:absolute; inset:0;
+  background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);
+  display:flex; align-items:center; justify-content:center; font-size:4rem; opacity:0.2;
+}
+.ph-time {
+  position:relative; text-align:center; padding:20px 0 10px; color:white;
+  font-size:1.8rem; font-weight:200; letter-spacing:1px;
+}
+.ph-date { font-size:0.65rem; color:rgba(255,255,255,0.6); text-align:center; margin-bottom:10px; }
+
+.ph-apps-grid {
+  display:grid; grid-template-columns:repeat(4,1fr); gap:6px; padding:8px;
+  position:relative;
+}
+.ph-app {
+  display:flex; flex-direction:column; align-items:center; gap:3px;
+  cursor:pointer; transition:transform 0.15s;
+}
+.ph-app:hover { transform:scale(1.1); }
+.ph-app:active { transform:scale(0.9); }
+.ph-app-icon {
+  width:36px; height:36px; border-radius:9px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.1rem; box-shadow:0 4px 10px rgba(0,0,0,0.4);
+}
+.ph-app-name { font-size:0.45rem; color:white; text-align:center; font-weight:600; }
+
+/* App-specific colors */
+.app-ig    { background:linear-gradient(45deg,#405de6,#5851db,#833ab4,#c13584,#e1306c,#fd1d1d); }
+.app-tt    { background:#000; position:relative; overflow:hidden; }
+.app-snap  { background:#FFFC00; }
+.app-msgs  { background:linear-gradient(135deg,#00c300,#00a000); }
+.app-back  { background:linear-gradient(135deg,#555,#333); }
+
+.ph-dock {
+  background:rgba(255,255,255,0.15); backdrop-filter:blur(10px);
+  margin:6px; border-radius:12px; padding:6px;
+  display:flex; justify-content:space-around;
+}
+
+/* Social app screens */
+#ph-instagram, #ph-tiktok, #ph-snapchat, #ph-messages {
+  background:#fafafa; flex-direction:column;
+}
+.ph-app-header {
+  background:white; border-bottom:1px solid #eee;
+  padding:8px; display:flex; align-items:center; gap:6px;
+}
+.ph-back-btn {
+  background:none; border:none; cursor:pointer; font-size:1rem; color:#333;
+}
+.ph-app-logo { font-size:0.8rem; font-weight:900; }
+.ph-app-logo.ig  { background:linear-gradient(45deg,#833ab4,#c13584,#e1306c); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.ph-app-logo.tt  { color:#000; }
+.ph-app-logo.sn  { color:#FFFC00; background:#000; padding:2px 4px; border-radius:4px; }
+.ph-app-logo.ms  { color:#00c300; }
+
+.ph-stats-bar {
+  background:linear-gradient(135deg,#ffeef8,#ffe4f4);
+  padding:8px; display:flex; justify-content:space-around; border-bottom:1px solid #f0c0e0;
+}
+.ph-stat { text-align:center; }
+.ph-stat-num { font-size:0.85rem; font-weight:900; color:#c71585; }
+.ph-stat-label { font-size:0.45rem; color:#999; }
+
+.ph-content { flex:1; overflow-y:auto; padding:6px; }
+.ph-action-list { display:flex; flex-direction:column; gap:6px; }
+.ph-action {
+  background:white; border:2px solid #ffb6c1; border-radius:8px;
+  padding:8px; cursor:pointer; transition:all 0.2s; font-size:0.7rem;
+  display:flex; align-items:center; gap:6px;
+}
+.ph-action:hover { background:#ffe4e1; transform:scale(1.01); }
+.ph-action-icon { font-size:1rem; }
+
+/* Messages */
+#ph-messages { background:#fff; }
+.msg-contact {
+  padding:8px; border-bottom:1px solid #eee;
+  display:flex; align-items:center; gap:8px; cursor:pointer;
+}
+.msg-avatar { width:32px; height:32px; border-radius:50%; background:linear-gradient(135deg,#ff69b4,#da70d6); display:flex; align-items:center; justify-content:center; font-size:1rem; }
+.msg-info { flex:1; }
+.msg-name { font-size:0.75rem; font-weight:700; color:#333; }
+.msg-preview { font-size:0.6rem; color:#999; }
+
+.msg-chat { display:none; flex-direction:column; height:100%; }
+.msg-chat.visible { display:flex; }
+.msg-chat-header { background:#f5f5f5; padding:6px; display:flex; align-items:center; gap:6px; border-bottom:1px solid #eee; }
+.msg-chat-back { background:none; border:none; cursor:pointer; font-size:0.9rem; color:#007aff; }
+.msg-chat-name { font-size:0.75rem; font-weight:700; }
+.msg-chat-body { flex:1; padding:8px; display:flex; flex-direction:column; justify-content:flex-end; gap:4px; overflow-y:auto; }
+.msg-bubble {
+  max-width:75%; padding:6px 8px; border-radius:12px; font-size:0.65rem; line-height:1.3;
+}
+.msg-bubble.received { background:#e5e5ea; color:#333; align-self:flex-start; border-radius:12px 12px 12px 2px; }
+.msg-bubble.sent { background:#007aff; color:white; align-self:flex-end; border-radius:12px 12px 2px 12px; }
+
+/* ===== FLAPPY BIRD ===== */
+#game-screen-flappy {
+  position:fixed; inset:0; z-index:100; display:none;
+  background:#70c5ce; flex-direction:column; align-items:center; justify-content:center;
+}
+#game-screen-flappy.active { display:flex; }
+#flappy-canvas { border:3px solid #5aa0aa; border-radius:8px; }
+.flappy-ui {
+  position:absolute; top:20px; left:0; right:0; display:flex;
+  justify-content:space-between; align-items:center; padding:0 20px;
+  font-family:'Pacifico',cursive; color:white; text-shadow:2px 2px 4px rgba(0,0,0,0.5);
+}
+.flappy-score { font-size:2rem; }
+.flappy-close {
+  background:rgba(255,255,255,0.3); border:none; border-radius:8px;
+  padding:8px 14px; color:white; font-family:'Pacifico',cursive;
+  font-size:0.9rem; cursor:pointer;
+}
+
+/* ===== NOTIFICATION POPUP ===== */
+.notif {
+  position:fixed; top:20px; right:20px; z-index:9999;
+  background:rgba(255,255,255,0.95); border:2px solid #ff69b4;
+  border-radius:12px; padding:12px 16px; box-shadow:var(--shadow);
+  display:flex; align-items:center; gap:10px; font-size:0.85rem;
+  transform:translateX(150%); transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+  max-width:280px;
+}
+.notif.show { transform:translateX(0); }
+.notif-icon { font-size:1.4rem; }
+.notif-text { color:#c71585; font-weight:700; }
+
+/* ===== MODAL ===== */
+.modal-overlay {
+  position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:200;
+  display:none; align-items:center; justify-content:center;
+}
+.modal-overlay.active { display:flex; }
+.modal {
+  background:white; border-radius:20px; padding:24px;
+  max-width:340px; width:90%; box-shadow:0 20px 60px rgba(0,0,0,0.3);
+  border:3px solid #ff69b4; text-align:center;
+}
+.modal-title { font-family:'Pacifico',cursive; color:#c71585; font-size:1.2rem; margin-bottom:10px; }
+.modal-text { color:#555; font-size:0.9rem; margin-bottom:16px; line-height:1.5; }
+.modal-btns { display:flex; gap:8px; justify-content:center; flex-wrap:wrap; }
+.modal-btn {
+  background:linear-gradient(135deg,#ff69b4,#ff1493);
+  color:white; border:none; border-radius:10px; padding:10px 16px;
+  font-family:'Nunito',sans-serif; font-weight:700; font-size:0.85rem;
+  cursor:pointer; transition:all 0.2s;
+}
+.modal-btn:hover { transform:scale(1.05); }
+.modal-btn.secondary { background:linear-gradient(135deg,#ddd,#bbb); color:#333; }
+
+/* Confetti */
+.confetti { position:fixed; inset:0; pointer-events:none; z-index:9998; }
+.confetti-piece {
+  position:absolute; width:8px; height:8px; border-radius:2px;
+  animation: confettiFall 2s ease-in forwards;
+}
+@keyframes confettiFall {
+  0%   { transform:translateY(-20px) rotate(0deg); opacity:1; }
+  100% { transform:translateY(100vh) rotate(720deg); opacity:0; }
+}
+
+/* Scrollbars */
+::-webkit-scrollbar { width:4px; }
+::-webkit-scrollbar-track { background:transparent; }
+::-webkit-scrollbar-thumb { background:#ffb6c1; border-radius:2px; }
+
+/* ===== MOBILE RESPONSIVE ===== */
+@media (max-width: 768px) {
+  body { overflow: auto; }
+
+  /* Intro screen - scale room for small screens */
+  .room-title { font-size: 1.3rem; top: 3%; }
+  .door { width: 90px; height: 120px; }
+  .door-sign { font-size: 0.85rem; padding: 4px 8px; }
+  .poster { width: 80px; height: 55px; left: 15%; top: 10%; font-size: 1.3rem; }
+  .bed { width: 70px; height: 45px; right: 15%; }
+  .desk { width: 65px; left: 14%; }
+  .monitor { width: 48px; height: 36px; top: -38px; font-size: 1rem; }
+  .click-hint { font-size: 0.75rem; bottom: 15%; }
+
+  /* Game screen - stack vertically */
+  #game-screen {
+    flex-direction: column;
+    overflow-y: auto;
+    height: 100dvh;
+  }
+
+  .game-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    height: auto;
+    min-height: 100dvh;
+    padding-bottom: 70px; /* space for bottom nav */
+  }
+
+  /* Hide all panels by default on mobile */
+  .left-panel, .right-panel, .center-panel {
+    display: none;
+    height: auto;
+    min-height: calc(100dvh - 70px);
+    overflow-y: auto;
+    border: none;
+  }
+
+  /* Show active panel */
+  .left-panel.mob-active,
+  .right-panel.mob-active,
+  .center-panel.mob-active {
+    display: flex;
+  }
+
+  .left-panel { order: 1; padding: 12px; gap: 10px; }
+  .center-panel { order: 2; padding: 12px; }
+  .right-panel { order: 3; padding: 12px; align-items: center; }
+
+  /* Stats layout adjustments */
+  .avatar-emoji { font-size: 2.8rem; }
+  .avatar-name { font-size: 1rem; }
+
+  /* Actions grid - 2 columns but bigger tap targets */
+  .actions-grid { grid-template-columns: 1fr 1fr; }
+  .action-btn { padding: 14px 8px; font-size: 0.85rem; }
+
+  /* Log box shorter on mobile */
+  .log-box { max-height: 150px; }
+
+  /* Phone panel - center the phone */
+  .right-panel { justify-content: flex-start; padding-top: 16px; }
+  .iphone { width: min(220px, 60vw); height: min(460px, 75vw * 2.1); }
+
+  /* Nav buttons wrap */
+  .top-bar { gap: 6px; padding: 8px 10px; }
+  .nav-btn { padding: 6px 8px; font-size: 0.72rem; }
+
+  /* Notification on mobile */
+  .notif { top: auto; bottom: 80px; right: 10px; left: 10px; max-width: 100%; }
+
+  /* Bottom navigation bar */
+  .mob-nav {
+    display: flex !important;
   }
 }
-.choice-icon{font-size:1.2rem;flex-shrink:0;margin-top:1px}
-.choice-main{font-weight:600;color:white;line-height:1.3;font-size:0.95rem}
-.choice-sub{font-size:0.8rem;color:rgba(232,224,208,0.5);margin-top:2px}
-.choice-effects{display:flex;gap:6px;margin-top:5px;flex-wrap:wrap}
-.effect-tag{font-size:0.65rem;padding:2px 7px;border-radius:10px;font-weight:600}
-.effect-pos{background:rgba(46,204,113,0.15);color:#2ecc71;border:1px solid rgba(46,204,113,0.3)}
-.effect-neg{background:rgba(231,76,60,0.15);color:#e74c3c;border:1px solid rgba(231,76,60,0.3)}
-.effect-neu{background:rgba(52,152,219,0.15);color:#3498db;border:1px solid rgba(52,152,219,0.3)}
-@keyframes pulse-warn{from{opacity:1}to{opacity:0.4}}
 
-@media(max-width:400px){
-  #city-label{font-size:0.8rem;max-width:80px}
-  #age-number{font-size:1.7rem}
-  #stats-row{gap:5px}
-  .stat-mini-bar{width:28px}
-  #story-title{font-size:1rem}
-  #story-text{font-size:0.9rem}
-  .choice-main{font-size:0.9rem}
-  .choice-sub{font-size:0.75rem}
+/* Bottom nav - always hidden on desktop */
+.mob-nav {
+  display: none;
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: 64px;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(12px);
+  border-top: 2px solid #ffb6c1;
+  z-index: 50;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0 8px 4px;
+  box-shadow: 0 -4px 20px rgba(255,105,180,0.2);
 }
+.mob-tab {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  background: none; border: none; cursor: pointer;
+  padding: 6px 12px; border-radius: 12px;
+  transition: all 0.2s; flex: 1;
+}
+.mob-tab.active {
+  background: linear-gradient(135deg, #ff69b4, #da70d6);
+}
+.mob-tab-icon { font-size: 1.4rem; }
+.mob-tab-label {
+  font-family: 'Nunito', sans-serif; font-size: 0.6rem; font-weight: 700;
+  color: #c71585;
+}
+.mob-tab.active .mob-tab-label { color: white; }
 
-#stats-panel{
-  background:rgba(255,255,255,0.03);
-  border:1px solid rgba(255,255,255,0.07);
-  border-radius:16px;padding:18px;
-}
-#stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.stat-item{}
-.stat-top{display:flex;justify-content:space-between;margin-bottom:4px}
-.stat-name{font-size:0.75rem;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:1px}
-.stat-val{font-size:0.75rem;font-weight:700}
-.stat-bar{height:6px;background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden}
-.stat-fill{height:100%;border-radius:3px;transition:width 0.6s ease}
+/* Animations */
+@keyframes slideIn { from{transform:translateY(30px);opacity:0;} to{transform:translateY(0);opacity:1;} }
+.slide-in { animation:slideIn 0.4s ease forwards; }
 
-#memory-log{
-  background:rgba(0,0,0,0.2);
-  border:1px solid rgba(255,255,255,0.05);
-  border-radius:12px;padding:14px 16px;
-  max-height:140px;overflow-y:auto;
-}
-#memory-title{font-size:0.65rem;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:8px}
-.memory-item{font-size:0.8rem;color:rgba(255,255,255,0.4);padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
-.memory-item:last-child{border-bottom:none}
+@keyframes pulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.05);} }
 
-#death-screen{
-  position:fixed;inset:0;z-index:800;
-  background:rgba(0,0,0,0.95);
-  display:none;flex-direction:column;align-items:center;justify-content:center;
-  text-align:center;padding:40px;overflow-y:auto;
-}
-#death-title{font-family:'Playfair Display',serif;font-size:3rem;font-weight:900;color:var(--gold);margin-bottom:16px}
-#death-age{font-size:1.3rem;color:var(--text);margin-bottom:8px}
-#death-city{font-size:1rem;color:rgba(255,255,255,0.4);margin-bottom:30px}
-#life-summary{
-  background:rgba(255,255,255,0.05);
-  border:1px solid rgba(212,168,67,0.2);
-  border-radius:16px;padding:24px;max-width:500px;width:100%;margin-bottom:30px;
-}
-#summary-title{font-size:0.7rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
-#summary-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;text-align:left}
-.sum-stat{padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05)}
-.sum-label{font-size:0.75rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:1px}
-.sum-value{font-size:1.1rem;font-weight:700;color:white;margin-top:2px}
-#memories-list{max-width:500px;width:100%;margin-bottom:30px;text-align:left}
-#mem-title{font-size:0.7rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
-.mem-line{font-size:0.9rem;color:rgba(255,255,255,0.5);padding:4px 0;border-left:2px solid rgba(212,168,67,0.3);padding-left:12px;margin-bottom:6px}
-#next-life-btn{
-  background:linear-gradient(135deg,var(--gold),#c49030);
-  color:#000;border:none;border-radius:12px;
-  padding:16px 40px;font-family:'Playfair Display',serif;
-  font-size:1.1rem;font-weight:700;cursor:pointer;
-  transition:transform 0.2s,box-shadow 0.2s;letter-spacing:1px;
-}
-#next-life-btn:hover{transform:scale(1.05);box-shadow:0 8px 30px rgba(212,168,67,0.3)}
-#next-city-preview{font-size:0.85rem;color:rgba(255,255,255,0.3);margin-top:12px}
+.door-open { animation: openDoor 0.8s ease forwards; }
+@keyframes openDoor { to { transform: translateX(-50%) perspective(400px) rotateY(-70deg); } }
 
-#notif{
-  position:fixed;top:80px;right:20px;z-index:500;
-  background:rgba(0,0,0,0.85);border:1px solid rgba(212,168,67,0.3);
-  border-radius:12px;padding:12px 18px;
-  font-size:0.9rem;pointer-events:none;
-  transform:translateX(120%);transition:transform 0.4s ease;
-  backdrop-filter:blur(10px);max-width:280px;
-}
-#notif.show{transform:translateX(0)}
+.fade-to-game { animation: fadeOut 0.5s ease forwards; }
+@keyframes fadeOut { to { opacity:0; pointer-events:none; } }
+
 </style>
 </head>
 <body>
 
-<div id="intro-scene">
-  <canvas id="stars-canvas"></canvas>
-  <div id="planet-container">
-    <div id="planet">
-      <div class="continent" id="c1"></div>
-      <div class="continent" id="c2"></div>
-      <div class="continent" id="c3"></div>
-      <div id="city-dot"></div>
+<!-- Floating hearts background -->
+<div class="hearts-bg" id="heartsContainer"></div>
+
+<!-- ===== INTRO ROOM ===== -->
+<div class="screen active" id="intro-screen">
+  <div class="room" id="mainRoom">
+    <div class="back-wall"></div>
+    <div class="wall-left"></div>
+    <div class="wall-right"></div>
+
+    <div class="lights" id="lightsRow"></div>
+
+    <div class="poster">🌸</div>
+
+    <!-- Bed -->
+    <div class="bed" style="bottom:30%;right:20%;">
+      <div class="bed-frame">
+        <div class="bed-pillow"></div>
+        <div class="bed-blanket"></div>
+      </div>
     </div>
-  </div>
-  <div id="intro-text">
-    <div id="intro-title">VIAȚA ÎN ROMÂNIA</div>
-    <div id="intro-sub">Un joc despre alegeri, destin și noroc</div>
-    <div id="intro-city-name">📍 BUCUREȘTI</div>
+
+    <!-- Desk -->
+    <div class="desk" style="bottom:30%;left:20%;">
+      <div class="monitor">💻</div>
+      <div class="desk-top"></div>
+      <div class="desk-legs">
+        <div class="desk-leg"></div>
+        <div class="desk-leg"></div>
+      </div>
+    </div>
+
+    <!-- Floor -->
+    <div class="floor"></div>
+
+    <!-- Door -->
+    <div class="door" id="entranceDoor" onclick="enterGame()">
+      <div class="door-sign">pestera</div>
+      <div class="door-handle"></div>
+      <div class="door-text">🚪 click to enter</div>
+    </div>
+
+    <div class="room-title">✨ Viața Mihaelei ✨</div>
+    <div class="click-hint">👆 Intră prin ușă pentru a începe aventura! 🌸</div>
   </div>
 </div>
 
-<div id="city-reveal">
-  <div id="city-skyline">
-    <canvas id="skyline-canvas" width="700" height="200"></canvas>
-    <div id="city-reveal-name">BUCUREȘTI</div>
-    <div id="city-reveal-year">Începi o nouă viață...</div>
+<!-- ===== MAIN GAME SCREEN ===== -->
+<div class="screen" id="game-screen">
+  <div class="game-container">
+
+    <!-- LEFT: Stats -->
+    <div class="left-panel">
+      <div class="avatar-box">
+        <span class="avatar-emoji">👧</span>
+        <div class="avatar-name">Mihaela</div>
+        <div class="avatar-age" id="ageDisplay">Vârsta: 16 ani</div>
+      </div>
+
+      <div class="money-box">
+        <div class="money-label">💰 Bani</div>
+        <div class="money-amount" id="moneyDisplay">250 lei</div>
+      </div>
+
+      <div class="stats-box">
+        <div class="stats-title">📊 Statistici Viață</div>
+        <div class="stat-row">
+          <div class="stat-label"><span>❤️ Sănătate</span><span id="sHealth">75%</span></div>
+          <div class="stat-bar"><div class="stat-fill health" id="bHealth" style="width:75%"></div></div>
+        </div>
+        <div class="stat-row">
+          <div class="stat-label"><span>😊 Fericire</span><span id="sHappy">60%</span></div>
+          <div class="stat-bar"><div class="stat-fill happy" id="bHappy" style="width:60%"></div></div>
+        </div>
+        <div class="stat-row">
+          <div class="stat-label"><span>🧠 Inteligență</span><span id="sSmart">50%</span></div>
+          <div class="stat-bar"><div class="stat-fill smart" id="bSmart" style="width:50%"></div></div>
+        </div>
+        <div class="stat-row">
+          <div class="stat-label"><span>💅 Aspect</span><span id="sLooks">65%</span></div>
+          <div class="stat-bar"><div class="stat-fill looks" id="bLooks" style="width:65%"></div></div>
+        </div>
+        <div class="stat-row">
+          <div class="stat-label"><span>😌 Stare</span><span id="sMood">70%</span></div>
+          <div class="stat-bar"><div class="stat-fill mood" id="bMood" style="width:70%"></div></div>
+        </div>
+      </div>
+
+      <button class="age-btn" onclick="advanceAge()">🎂 Un an mai mare!</button>
+
+      <div class="stats-box">
+        <div class="stats-title">📱 Social Media</div>
+        <div class="stat-label" style="margin-bottom:4px"><span>📸 Instagram</span><span id="igFollowers">0</span> urmăritori</div>
+        <div class="stat-label" style="margin-bottom:4px"><span>🎵 TikTok</span><span id="ttFollowers">0</span> urmăritori</div>
+        <div class="stat-label"><span>👻 Snapchat</span><span id="snScore">0</span> scor</div>
+      </div>
+    </div>
+
+    <!-- CENTER: Main game -->
+    <div class="center-panel">
+      <div class="top-bar">
+        <button class="nav-btn active" onclick="showSection('life')">🏠 Viață</button>
+        <button class="nav-btn" onclick="showSection('school')">📚 Școală</button>
+        <button class="nav-btn" onclick="showSection('social')">👫 Social</button>
+        <button class="nav-btn" onclick="showSection('work')">💼 Job</button>
+        <button class="nav-btn" onclick="openFlappy()">🐦 Flappy</button>
+      </div>
+
+      <div class="event-box" id="eventBox">
+        <div class="event-title" id="eventTitle">🌸 Bun venit în viața Mihaelei!</div>
+        <div class="event-text" id="eventText">Mihaela are 16 ani și visează să devină influencer. E dimineață și ziua abia începe. Ce vrei să faci?</div>
+      </div>
+
+      <div class="actions-grid" id="actionsGrid">
+        <!-- populated by JS -->
+      </div>
+
+      <div class="log-box">
+        <div class="log-title">📜 Jurnal</div>
+        <div id="logEntries">
+          <div class="log-entry">🌸 Mihaela s-a trezit plină de energie!</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Phone -->
+    <div class="right-panel">
+      <div class="phone-label">📱 Telefonul Mihaelei</div>
+      <div class="iphone">
+        <div class="dynamic-island"></div>
+        <div class="side-btn-r"></div>
+        <div class="side-btn-l1"></div>
+        <div class="side-btn-l2"></div>
+        <div class="side-btn-l3"></div>
+        <div class="phone-screen">
+          <div class="phone-status-bar">
+            <span>9:41</span>
+            <span>📶 100%🔋</span>
+          </div>
+          <div class="phone-home">
+
+            <!-- Home Screen -->
+            <div class="p-screen active" id="ph-home">
+              <div class="ph-wallpaper">🌸</div>
+              <div class="ph-time" id="phTime">09:41</div>
+              <div class="ph-date" id="phDate">Joi, 14 Mai</div>
+              <div class="ph-apps-grid">
+                <div class="ph-app" onclick="openPhApp('instagram')">
+                  <div class="ph-app-icon app-ig">📸</div>
+                  <div class="ph-app-name">Instagram</div>
+                </div>
+                <div class="ph-app" onclick="openPhApp('tiktok')">
+                  <div class="ph-app-icon app-tt" style="color:white;font-size:1rem;">♪</div>
+                  <div class="ph-app-name">TikTok</div>
+                </div>
+                <div class="ph-app" onclick="openPhApp('snapchat')">
+                  <div class="ph-app-icon app-snap">👻</div>
+                  <div class="ph-app-name">Snapchat</div>
+                </div>
+                <div class="ph-app" onclick="openPhApp('messages')">
+                  <div class="ph-app-icon app-msgs">💬</div>
+                  <div class="ph-app-name">Mesaje</div>
+                </div>
+              </div>
+              <div class="ph-dock">
+                <div class="ph-app" onclick="openPhApp('messages')">
+                  <div class="ph-app-icon app-msgs" style="width:30px;height:30px;font-size:0.9rem;">💬</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Instagram -->
+            <div class="p-screen" id="ph-instagram">
+              <div class="ph-app-header">
+                <button class="ph-back-btn" onclick="closePhApp()">‹</button>
+                <div class="ph-app-logo ig">Instagram</div>
+              </div>
+              <div class="ph-stats-bar">
+                <div class="ph-stat"><div class="ph-stat-num" id="ig-followers-ph">0</div><div class="ph-stat-label">urmăritori</div></div>
+                <div class="ph-stat"><div class="ph-stat-num" id="ig-likes-ph">0</div><div class="ph-stat-label">like-uri</div></div>
+                <div class="ph-stat"><div class="ph-stat-num" id="ig-posts-ph">0</div><div class="ph-stat-label">postări</div></div>
+              </div>
+              <div class="ph-content">
+                <div class="ph-action-list" id="ig-actions"></div>
+              </div>
+            </div>
+
+            <!-- TikTok -->
+            <div class="p-screen" id="ph-tiktok">
+              <div class="ph-app-header">
+                <button class="ph-back-btn" onclick="closePhApp()">‹</button>
+                <div class="ph-app-logo tt">TikTok</div>
+              </div>
+              <div class="ph-stats-bar">
+                <div class="ph-stat"><div class="ph-stat-num" id="tt-followers-ph">0</div><div class="ph-stat-label">urmăritori</div></div>
+                <div class="ph-stat"><div class="ph-stat-num" id="tt-likes-ph">0</div><div class="ph-stat-label">inimi</div></div>
+                <div class="ph-stat"><div class="ph-stat-num" id="tt-views-ph">0</div><div class="ph-stat-label">vizualizări</div></div>
+              </div>
+              <div class="ph-content">
+                <div class="ph-action-list" id="tt-actions"></div>
+              </div>
+            </div>
+
+            <!-- Snapchat -->
+            <div class="p-screen" id="ph-snapchat">
+              <div class="ph-app-header">
+                <button class="ph-back-btn" onclick="closePhApp()">‹</button>
+                <div class="ph-app-logo sn">Snap</div>
+              </div>
+              <div class="ph-stats-bar">
+                <div class="ph-stat"><div class="ph-stat-num" id="sn-score-ph">0</div><div class="ph-stat-label">snap score</div></div>
+                <div class="ph-stat"><div class="ph-stat-num" id="sn-streak-ph">🔥0</div><div class="ph-stat-label">streak</div></div>
+                <div class="ph-stat"><div class="ph-stat-num" id="sn-friends-ph">0</div><div class="ph-stat-label">prieteni</div></div>
+              </div>
+              <div class="ph-content">
+                <div class="ph-action-list" id="sn-actions"></div>
+              </div>
+            </div>
+
+            <!-- Messages -->
+            <div class="p-screen" id="ph-messages">
+              <div class="ph-app-header">
+                <button class="ph-back-btn" onclick="closePhApp()">‹</button>
+                <div class="ph-app-logo ms">Mesaje</div>
+              </div>
+              <div id="contacts-list">
+                <div class="msg-contact" onclick="openChat()">
+                  <div class="msg-avatar">😈</div>
+                  <div class="msg-info">
+                    <div class="msg-name">pretena mea abuziva</div>
+                    <div class="msg-preview">vi afara?ia si o bricheta</div>
+                  </div>
+                </div>
+              </div>
+              <div class="msg-chat" id="abuziva-chat">
+                <div class="msg-chat-header">
+                  <button class="msg-chat-back" onclick="closeChat()">‹ Înapoi</button>
+                  <div class="msg-avatar" style="width:22px;height:22px;font-size:0.7rem;">😈</div>
+                  <div class="msg-chat-name">pretena mea abuziva</div>
+                </div>
+                <div class="msg-chat-body" id="chatBody">
+                  <div class="msg-bubble received">vi afara?ia si o bricheta</div>
+                </div>
+                <div style="padding:4px;display:flex;gap:4px;">
+                  <div style="flex:1;background:#f0f0f0;border-radius:20px;padding:6px 10px;font-size:0.6rem;color:#999;">Scrie un mesaj...</div>
+                  <button onclick="replyChat()" style="background:#007aff;border:none;border-radius:50%;width:28px;height:28px;color:white;cursor:pointer;font-size:0.8rem;">↑</button>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- phone-home -->
+        </div><!-- phone-screen -->
+      </div><!-- iphone -->
+    </div><!-- right-panel -->
+
+  </div><!-- game-container -->
+</div><!-- game-screen -->
+
+<!-- ===== FLAPPY BIRD ===== -->
+<div id="game-screen-flappy">
+  <div class="flappy-ui">
+    <div class="flappy-score">🐦 <span id="flappyScore">0</span></div>
+    <button class="flappy-close" onclick="closeFlappy()">✕ Ieși</button>
+  </div>
+  <canvas id="flappy-canvas" width="360" height="500"></canvas>
+</div>
+
+<!-- Notification -->
+<div class="notif" id="notification">
+  <div class="notif-icon" id="notifIcon">🎉</div>
+  <div class="notif-text" id="notifText">Notificare!</div>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-title" id="modalTitle">Alegere</div>
+    <div class="modal-text" id="modalText">...</div>
+    <div class="modal-btns" id="modalBtns"></div>
   </div>
 </div>
 
-<div id="game-ui">
-  <div id="game-bg"></div>
-  <div id="game-header">
-    <div>
-      <div id="city-label">📍 București</div>
-      <div style="font-size:0.65rem;color:rgba(255,255,255,0.3);margin-top:2px;letter-spacing:2px;text-transform:uppercase">Viața ta</div>
-    </div>
-    <div id="age-display">
-      <div id="age-number">0</div>
-      <div id="age-label">ANI</div>
-      <div id="life-phase">Nou-născut</div>
-    </div>
-    <div id="stats-row">
-      <div class="stat-mini">
-        <div class="stat-mini-val" id="hval">100</div>
-        <div class="stat-mini-bar"><div class="stat-mini-fill" id="hbar" style="width:100%;background:#e74c3c"></div></div>
-        <div class="stat-mini-label">❤️</div>
-      </div>
-      <div class="stat-mini">
-        <div class="stat-mini-val" id="mval">50</div>
-        <div class="stat-mini-bar"><div class="stat-mini-fill" id="mbar" style="width:50%;background:#3498db"></div></div>
-        <div class="stat-mini-label">💸</div>
-      </div>
-      <div class="stat-mini">
-        <div class="stat-mini-val" id="fval">50</div>
-        <div class="stat-mini-bar"><div class="stat-mini-fill" id="fbar" style="width:50%;background:#f39c12"></div></div>
-        <div class="stat-mini-label">😊</div>
-      </div>
-    </div>
-  </div>
+<!-- Confetti container -->
+<div class="confetti" id="confettiBox"></div>
 
-  <div id="game-main">
-    <div id="story-card">
-      <div id="story-age-badge">Vârsta: 0 ani</div>
-      <div id="story-title">Bun venit pe lume!</div>
-      <div id="story-text">Te-ai născut...</div>
-    </div>
-    <div id="choices-container"></div>
-    <div id="stats-panel">
-      <div id="stats-grid">
-        <div class="stat-item">
-          <div class="stat-top"><span class="stat-name">❤️ Sănătate</span><span class="stat-val" id="sv-health" style="color:#e74c3c">100</span></div>
-          <div class="stat-bar"><div class="stat-fill" id="sf-health" style="width:100%;background:#e74c3c"></div></div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-top"><span class="stat-name">💸 Bani</span><span class="stat-val" id="sv-money" style="color:#f39c12">50</span></div>
-          <div class="stat-bar"><div class="stat-fill" id="sf-money" style="width:50%;background:#f39c12"></div></div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-top"><span class="stat-name">😊 Fericire</span><span class="stat-val" id="sv-happiness" style="color:#2ecc71">50</span></div>
-          <div class="stat-bar"><div class="stat-fill" id="sf-happiness" style="width:50%;background:#2ecc71"></div></div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-top"><span class="stat-name">🎓 Educație</span><span class="stat-val" id="sv-edu" style="color:#3498db">0</span></div>
-          <div class="stat-bar"><div class="stat-fill" id="sf-edu" style="width:0%;background:#3498db"></div></div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-top"><span class="stat-name">🤝 Relații</span><span class="stat-val" id="sv-social" style="color:#9b59b6">50</span></div>
-          <div class="stat-bar"><div class="stat-fill" id="sf-social" style="width:50%;background:#9b59b6"></div></div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-top"><span class="stat-name">🏆 Carieră</span><span class="stat-val" id="sv-career" style="color:#1abc9c">0</span></div>
-          <div class="stat-bar"><div class="stat-fill" id="sf-career" style="width:0%;background:#1abc9c"></div></div>
-        </div>
-      </div>
-    </div>
-    <div id="memory-log">
-      <div id="memory-title">📖 Amintiri</div>
-      <div id="memory-list"></div>
-    </div>
-  </div>
-</div>
-
-<div id="death-screen">
-  <div id="death-title">Viața s-a încheiat</div>
-  <div id="death-age"></div>
-  <div id="death-city"></div>
-  <div id="life-summary">
-    <div id="summary-title">Sumarul vieții tale</div>
-    <div id="summary-stats"></div>
-  </div>
-  <div id="memories-list">
-    <div id="mem-title">Cele mai importante momente</div>
-    <div id="mem-lines"></div>
-  </div>
-  <button id="next-life-btn" onclick="startNewLife()">🔄 O nouă viață</button>
-  <div id="next-city-preview"></div>
-</div>
-
-<div id="notif"></div>
+<!-- Mobile bottom nav (hidden on desktop via CSS) -->
+<nav class="mob-nav" id="mobNav">
+  <button class="mob-tab active" id="mobTab-stats" onclick="mobSwitch('stats')">
+    <span class="mob-tab-icon">📊</span>
+    <span class="mob-tab-label">Stats</span>
+  </button>
+  <button class="mob-tab" id="mobTab-game" onclick="mobSwitch('game')">
+    <span class="mob-tab-icon">🏠</span>
+    <span class="mob-tab-label">Joc</span>
+  </button>
+  <button class="mob-tab" id="mobTab-phone" onclick="mobSwitch('phone')">
+    <span class="mob-tab-icon">📱</span>
+    <span class="mob-tab-label">Telefon</span>
+  </button>
+</nav>
 
 <script>
-const CITIES = [
-  {name:"Petroșani",emoji:"⛏️",desc:"în Valea Jiului, între mine și munți",color:"#5d4037",isPetrosani:true},
-  {name:"București",emoji:"🏛️",desc:"capitala României, plin de oportunități și trafic",color:"#c0392b"},
-  {name:"Cluj-Napoca",emoji:"🎓",desc:"orașul studențesc, hub tech al României",color:"#2980b9"},
-  {name:"Timișoara",emoji:"🌹",desc:"orașul multicultural, primul cu lumină electrică",color:"#8e44ad"},
-  {name:"Iași",emoji:"📚",desc:"capitala culturală, vechi oraș universitar",color:"#16a085"},
-  {name:"Brașov",emoji:"⛰️",desc:"poarta Transilvaniei, între munți și cetăți",color:"#d35400"},
-  {name:"Constanța",emoji:"🌊",desc:"la malul Mării Negre, port și stațiuni",color:"#1a6991"},
-  {name:"Galați",emoji:"⚓",desc:"oraș portuar pe Dunăre, industrie puternică",color:"#2c3e50"},
-  {name:"Craiova",emoji:"🌻",desc:"capitala Olteniei, tradiție și modernitate",color:"#c0392b"},
-  {name:"Ploiești",emoji:"🛢️",desc:"orașul petrolului, centru industrial",color:"#7f8c8d"},
-  {name:"Oradea",emoji:"🏰",desc:"perla art nouveau, la granița cu Ungaria",color:"#f39c12"},
-  {name:"Sibiu",emoji:"👁️",desc:"capitala culturală europeană, orașul cu ochi",color:"#8e44ad"},
-  {name:"Bacău",emoji:"🌲",desc:"în inima Moldovei, între munți și câmpii",color:"#27ae60"},
-  {name:"Pitești",emoji:"🚗",desc:"orașul automobilelor, Dacia e acasă",color:"#e74c3c"},
-  {name:"Târgu Mureș",emoji:"🌷",desc:"inimă Transilvaniei, bilingv și colorat",color:"#e67e22"},
-  {name:"Baia Mare",emoji:"🏔️",desc:"poarta Maramureșului, tradiții autentice",color:"#2980b9"},
-  {name:"Deva",emoji:"🏯",desc:"sub cetatea dacică, poarta Hunedoarei",color:"#d35400"},
-  {name:"Focșani",emoji:"🍷",desc:"capitala vinurilor, poarta Moldovei",color:"#c0392b"},
-  {name:"Arad",emoji:"🎭",desc:"oraș cosmopolit cu arhitectură splendidă",color:"#1abc9c"},
-  {name:"Buzău",emoji:"🍇",desc:"vinuri și tradiții, câmpie și deal",color:"#8e44ad"},
-];
-
-// ======= EVENTS (masiv extins) =======
-const EVENTS_PETROSANI_BIRTH = {
-  minAge:0,maxAge:0,
-  title:"Ești Mihaela",
-  text:"Ești Mihaela, te-ai născut în Petroșani, în Valea Jiului. Afară plouă cu găleata, blocurile sunt cenușii, dar în cameră e cald și mama ta plânge de fericire.",
-  isPetrosaniSpecial: true,
-  choices:[
-    {icon:"🎮",main:"Joci Brawl Stars",sub:"De mică știi ce contează în viață",effects:{happiness:+15,social:+5},memory:"Prima ta pasiune: Brawl Stars"},
-    {icon:"👴",main:"Vorbești cu pedo-ul de la bloc",sub:"Bunicul vecinului, om ciudat...",effects:{social:-10,health:-5,happiness:-5},memory:"Omul de la scară... îl eviți de atunci"},
-    {icon:"🍉",main:"Mănânci pepeni",sub:"Ce viață bună, Mihaela!",effects:{happiness:+20,health:+10},memory:"Pepenii din Petroșani, de neuitat"},
-  ]
+// ========================
+// GAME STATE
+// ========================
+const state = {
+  age: 16, money: 250,
+  health: 75, happy: 60, smart: 50, looks: 65, mood: 70,
+  ig: { followers: 0, likes: 0, posts: 0 },
+  tt: { followers: 0, likes: 0, views: 0 },
+  sn: { score: 0, streak: 0, friends: 2 },
+  log: [],
+  year: 1
 };
 
-const EVENTS_NORMAL_BIRTH = {
-  minAge:0,maxAge:0,
-  title:"Primul răsuflat",
-  text:"Te-ai născut în {city}. Miroase a dezinfectant de spital și a speranță. Mama te ține strâns.",
-  choices:[
-    {icon:"😊",main:"Zâmbești și dormi liniștit",sub:"O viață fericită începe",effects:{happiness:+10,health:+5},memory:"Ai venit pe lume zâmbind"},
-    {icon:"😭",main:"Plângi cu toată puterea",sub:"Deja îți faci simțită prezența",effects:{health:+5,social:+5},memory:"Primul tău plâns a umplut spitalul"},
-    {icon:"😴",main:"Adormi imediat",sub:"Somn și liniște",effects:{health:+10,happiness:+5},memory:"Ai dormit de la prima secundă"},
-  ]
-};
-
-const EVENTS = [
-  // 2-4 ani
-  {minAge:2,maxAge:4,title:"Primii pași",text:"Ești în sufragerie și te ții de canapea. Tata te încurajează de celălalt capăt al camerei.",
-   choices:[
-    {icon:"🚶",main:"Faci primii pași singur",sub:"+curaj, +sănătate",effects:{health:+5,happiness:+10},memory:"Ai mers singur la 3 ani"},
-    {icon:"🍼",main:"Preferi să rămâi jos",sub:"Nu e grabă...",effects:{happiness:+5},memory:"Ai lăsat timpul să treacă"},
-    {icon:"🏃",main:"Alergi direct, fără frică",sub:"Viteza contează!",effects:{health:+10,happiness:+15,social:+5},memory:"Primii pași... la sprint"},
-   ]},
-  {minAge:3,maxAge:5,title:"Prima grădiniță",text:"Doamna educatoare miroase a parfum dulce. Ești în grupă cu 20 de copii, unii plâng, unii se bat.",
-   choices:[
-    {icon:"🧩",main:"Te joci cu toată lumea",sub:"+social, +fericire",effects:{social:+15,happiness:+10},memory:"Prietenii de la grădiniță"},
-    {icon:"😤",main:"Iei jucăria celui mai mic",sub:"+putere -social",effects:{social:-5,happiness:+10},memory:"Ți-ai luat ce voiai de mic"},
-    {icon:"📐",main:"Faci doar puzzle-uri",sub:"+educație, +răbdare",effects:{edu:+10,happiness:+5},memory:"Puzzle-urile din grădiniță"},
-    {icon:"🍪",main:"Schimbi mâncarea cu prietenii",sub:"+social, +creativitate",effects:{social:+10,happiness:+15},memory:"Micul tău targ de la prânz"},
-   ]},
-  // 6-10 ani
-  {minAge:6,maxAge:6,title:"Prima zi de școală",text:"Ghiozdanul e aproape cât tine. Clasa miroase a creioane și cretă. Doamna învățătoare face semn să intri.",
-   choices:[
-    {icon:"🎒",main:"Intri entuziasmat, îți faci prieteni",sub:"+social, +fericire",effects:{social:+15,happiness:+10,edu:+5},memory:"Prima zi de școală, un succes"},
-    {icon:"😰",main:"Stai lângă ușă, timid",sub:"-social dar +calm interior",effects:{social:-5,happiness:+5},memory:"Prima zi de școală, un pic speriată"},
-    {icon:"📚",main:"Pui mâna imediat pe cărți",sub:"+educație, +seriozitate",effects:{edu:+15,happiness:+5,social:-5},memory:"De la prima zi ai dat cu fața în carte"},
-   ]},
-  {minAge:7,maxAge:9,title:"Vacanța mare",text:"E vară în {city}. Blocul fierbe de căldură. Ai 3 luni libere și niciun plan.",
-   choices:[
-    {icon:"⚽",main:"Joci fotbal cu copiii din bloc",sub:"+social, +sănătate",effects:{social:+15,health:+10,happiness:+15},memory:"Verile din copilărie, fotbal până seara"},
-    {icon:"📖",main:"Citești la umbra plopilor",sub:"+educație",effects:{edu:+15,happiness:+10},memory:"Ai citit o bibliotecă în vacanța mare"},
-    {icon:"🎮",main:"Stai la calculator toată ziua",sub:"+distracție, -sănătate",effects:{happiness:+20,health:-10,social:-5},memory:"Veri întregi la calculator fără regrete"},
-    {icon:"🚴",main:"Explorezi cartierul pe bicicletă",sub:"+sănătate, +curiozitate",effects:{health:+15,happiness:+15,social:+10},memory:"Ai cartografiat tot blocul pe bicicletă"},
-   ]},
-  {minAge:9,maxAge:11,title:"Situație la școală",text:"Profa de matematică te-a prins copiind. Sau n-ai copiat, dar ea crede că da. Directorul te cheamă.",
-   choices:[
-    {icon:"🤥",main:"Neagi totul cu tupeu",sub:"Poate scapi...",effects:{social:-5,happiness:-5,edu:+5},memory:"Prima confruntare cu autoritatea"},
-    {icon:"😇",main:"Recunoști sincer",sub:"-edu, +respect de sine",effects:{edu:-5,happiness:+10,social:+5},memory:"Ai spus adevărul când conta"},
-    {icon:"😭",main:"Plângi și dai vina pe colegă",sub:"+scapi acum -karma",effects:{money:+0,social:-10,happiness:-5},memory:"N-a fost cea mai mândră zi"},
-    {icon:"💪",main:"Demonstrezi că știi rezolvând la tablă",sub:"+edu, +respect",effects:{edu:+15,social:+10,happiness:+10},memory:"Ai dovedit cu faptele"},
-   ]},
-  // 12-16 ani
-  {minAge:12,maxAge:13,title:"Prima tentație",text:"Un coleg îți oferă o țigară în spatele școlii. Profa de română se uită pe fereastră...",
-   choices:[
-    {icon:"🚬",main:"O fumezi, e cool",sub:"-sănătate, +social (cu grupul greșit)",effects:{health:-15,social:+5,happiness:+5},memory:"Prima țigară în spatele școlii"},
-    {icon:"👎",main:"Refuzi politicos",sub:"+sănătate",effects:{health:+10,social:-5},memory:"Ai zis nu la prima tentație"},
-    {icon:"😄",main:"Faci o glumă și pleci",sub:"Câștigi respect",effects:{social:+15,happiness:+10},memory:"O glumă bună te-a scos din situație"},
-    {icon:"📸",main:"Faci o poză și o pui pe Instagram",sub:"+social online, riscant",effects:{social:+10,happiness:+5,health:-5},memory:"Fotografia controversată din spatele școlii"},
-   ]},
-  // Eveniment special: droguri la petrecere
-  {minAge:15,maxAge:18,title:"Ofertă la petrecere",text:"La o petrecere, cineva îți oferă ceva mai tare decât o bere. Zice că e doar o dată.",
-   choices:[
-    {icon:"💊",main:"Accepti — e doar o dată",sub:"Risc extrem, dependență posibilă",effects:{happiness:+10,health:-30},deathRisk:{chance:0.12,cause:"Supradoză la o petrecere. Ai acceptat ceva fără să știi ce era."},memory:"Seara aceea pe care o regreți"},
-    {icon:"🍺",main:"Zici că preferi berea",sub:"-fericire ușor, +siguranță",effects:{happiness:-5,health:+5},memory:"Ai ales berea în locul riscului"},
-    {icon:"🚶",main:"Pleci imediat din petrecere",sub:"+sănătate, +minte lucidă",effects:{health:+10,happiness:-5},memory:"Ai plecat când trebuia"},
-    {icon:"🙅",main:"Refuzi direct și îți dai ochii peste cap",sub:"+respect de sine",effects:{health:+5,social:-5,happiness:+5},memory:"Ai zis nu clar și ai rămas tu însuți"},
-   ]},
-  {minAge:13,maxAge:14,title:"Telefon nou",text:"Ai primit un telefon nou. Poți să faci orice cu el. Dar ai și teme de făcut.",
-   choices:[
-    {icon:"📱",main:"TikTok non-stop",sub:"+distracție, -educație, -somn",effects:{happiness:+15,edu:-10,health:-10},memory:"Vara lui TikTok – nopți albe"},
-    {icon:"🎓",main:"Îl folosești pentru studiu",sub:"+edu, +viitor",effects:{edu:+15,happiness:+5},memory:"Telefonul, un instrument de învățat"},
-    {icon:"🎮",main:"Jocuri mobile 8h/zi",sub:"+fericire, -sănătate",effects:{happiness:+20,health:-15,social:-5},memory:"Rank maxim la 14 ani"},
-    {icon:"📸",main:"Devii influencer local",sub:"+social, +fericire, -edu",effects:{social:+20,happiness:+15,edu:-10},memory:"Primii 100 de urmăritori"},
-   ]},
-  {minAge:14,maxAge:15,title:"Prima iubire",text:"Inima bate mai repede când îl/o vezi în curtea școlii. Prietenii te îmbolzesc să vorbești.",
-   choices:[
-    {icon:"💌",main:"Dai un bilet scris de mână",sub:"+fericire, romantic",effects:{happiness:+20,social:+10},memory:"Primul bilet de dragoste"},
-    {icon:"📱",main:"Trimiți mesaj pe telefon",sub:"+fericire, modern",effects:{happiness:+15,social:+5},memory:"Prima dragoste, un mesaj"},
-    {icon:"🤷",main:"Aștepți, nu ești pregătit/ă",sub:"+liniște",effects:{happiness:+5,edu:+5},memory:"Ai ales cărțile în locul dragostei"},
-    {icon:"💔",main:"O/Îl blochezi de nervozitate",sub:"+dramă -fericire",effects:{happiness:-10,social:-5},memory:"Ai blocat pe cineva și ți-a părut rău"},
-   ]},
-  {minAge:15,maxAge:16,title:"Petrecere clandestină",text:"Părinții sunt plecați un weekend. Colegii te sună. Ce faci?",
-   choices:[
-    {icon:"🎉",main:"Faci petrecere acasă",sub:"+social, risc mare",effects:{social:+25,happiness:+20,money:-10,health:-10},memory:"Petrecerea legendară când părinții nu erau acasă"},
-    {icon:"🏠",main:"Stai acasă, te uiți la seriale",sub:"+odihnă",effects:{happiness:+10,health:+5},memory:"Netflix în liniște totală"},
-    {icon:"🚶",main:"Mergi la o petrecere la altcineva",sub:"+social, mai puțin risc",effects:{social:+15,happiness:+15},memory:"Petrecerea la care n-ai stricat nimic"},
-    {icon:"📚",main:"Înveți, ești diferit/ă",sub:"+edu, +autostimă",effects:{edu:+15,happiness:+5},memory:"Ai ales cartea în locul petrecerii"},
-   ]},
-  {minAge:16,maxAge:16,title:"Bacalaureatul se apropie",text:"Profesorii spun că e cel mai important examen. Toată România respiră greu în sesiune.",
-   choices:[
-    {icon:"📚",main:"Înveți serios 3 luni",sub:"+educație, +șanse la facultate",effects:{edu:+30,happiness:-10,health:-5},memory:"Ai dat totul la pregătirea pentru bac"},
-    {icon:"🙏",main:"Înveți puțin, pui și speranță",sub:"+educație moderat",effects:{edu:+15},memory:"Bacalaureatul, o aventură"},
-    {icon:"🎉",main:"Petreci cu prietenii, YOLO",sub:"+fericire, -educație",effects:{edu:-10,happiness:+25,health:-5},memory:"Ai trăit clipa înainte de bac"},
-    {icon:"📝",main:"Cumperi rezumate de pe net",sub:"+edu rapid, etică discutabilă",effects:{edu:+20,money:-5,happiness:+10},memory:"Rezumatele de pe Scribd, un clasic"},
-   ]},
-  // 17-18 ani
-  {minAge:17,maxAge:18,title:"Permisul auto",text:"Ai 17 ani. Toată lumea vrea permis. Ai bani de școala de șoferi?",
-   choices:[
-    {icon:"🚗",main:"Faci școala de șoferi imediat",sub:"+libertate, -bani",effects:{money:-15,happiness:+20,social:+10},memory:"Permisul auto, o nouă libertate"},
-    {icon:"🚌",main:"Continui cu transportul în comun",sub:"+bani economisiți",effects:{money:+10,happiness:-5},memory:"Autobuzul 41, vechiul tău prieten"},
-    {icon:"🛵",main:"Iei o trotinetă electrică",sub:"+mobilitate, +trend",effects:{money:-5,happiness:+15,health:+5},memory:"Regina trotuarului pe trotinetă"},
-   ]},
-  {minAge:17,maxAge:19,title:"Job de vară",text:"Vara după liceu. Poți munci sau te poți relaxa. Ce alegi?",
-   choices:[
-    {icon:"🍦",main:"Vinzi înghețată pe litoral",sub:"+bani, +distracție, +social",effects:{money:+20,happiness:+20,social:+15},memory:"Vara pe litoral cu înghețată"},
-    {icon:"💻",main:"Faci freelance online",sub:"+bani, +skill-uri",effects:{money:+25,edu:+10,career:+5},memory:"Primii bani din online"},
-    {icon:"🛋️",main:"Stai acasă, nu-i nicio grabă",sub:"+odihnă, -bani",effects:{happiness:+10,health:+10},memory:"Vacanța absolventului relaxat"},
-    {icon:"🏪",main:"Lucrezi la un supermarket",sub:"+bani, +experiență dură",effects:{money:+15,happiness:-5,career:+10},memory:"Casele de marcat și zâmbetul forțat"},
-   ]},
-  // 18-25 ani
-  {minAge:18,maxAge:19,title:"Alegerea facultății",text:"Ai diploma de bac. Lumea toată are o părere despre ce trebuie să faci. Tu ce simți?",
-   choices:[
-    {icon:"⚕️",main:"Medicină – greu dar respectat",sub:"+edu mult, +carieră",effects:{edu:+30,career:+20,happiness:-10,money:-10},memory:"Ai ales calea dificilă a medicinei"},
-    {icon:"💻",main:"Informatică – banii vin repede",sub:"+carieră, +bani",effects:{edu:+20,career:+25,money:+20},memory:"Ai ales IT-ul, decizia secolului"},
-    {icon:"🎨",main:"Arte / Uman – pasiunea contează",sub:"+fericire, +edu, -bani inițial",effects:{edu:+15,happiness:+20,money:-5},memory:"Ai ales pasiunea în fața siguranței"},
-    {icon:"🚀",main:"Pleci la studii în străinătate",sub:"+edu mult, +bani viitor",effects:{edu:+35,money:+15,social:-15,happiness:+10},memory:"Ai plecat la studii în afară"},
-    {icon:"💼",main:"Nu dai la facultate, muncești direct",sub:"+bani rapid, -educație",effects:{money:+25,edu:-10,career:+10},memory:"Ai ales munca în locul școlii"},
-    {icon:"🎓",main:"Drept – lupți pentru dreptate",sub:"+edu, +respect",effects:{edu:+25,career:+15,money:-5},memory:"Ai ales să aperi dreptatea"},
-   ]},
-  {minAge:19,maxAge:21,title:"Căminul studențesc",text:"Camera de 12mp, 3 colege, un singur frigider. E viață de student adevărată.",
-   choices:[
-    {icon:"📚",main:"Înveți serios, ești exemplul căminului",sub:"+edu, +carieră",effects:{edu:+20,career:+10,happiness:+5},memory:"Studentul serios din cameră 203"},
-    {icon:"🎉",main:"Petreci în fiecare weekend",sub:"+social, +fericire, -edu",effects:{social:+25,happiness:+25,edu:-15,health:-10},memory:"Viața de noapte studențească"},
-    {icon:"🍜",main:"Mănânci ramen 7 zile din 7",sub:"+supraviețuire -sănătate",effects:{money:+10,health:-10,happiness:-5},memory:"Ramen, fidea și supe la plic"},
-    {icon:"💑",main:"Te îndrăgostești de colegul/a de camin",sub:"+fericire, +dramă garantată",effects:{happiness:+20,social:+15,edu:-5},memory:"Dragostea din cămin"},
-   ]},
-  {minAge:20,maxAge:22,title:"Prima garsonieră",text:"Ai scăpat de acasă! O garsonieră de 25mp în {city}. Chiria se duce jumătate din salar.",
-   choices:[
-    {icon:"🏠",main:"O iei cu chirie, libertate totală",sub:"-bani, +fericire",effects:{money:-20,happiness:+25,social:+10},memory:"Prima garsonieră, libertatea gustată"},
-    {icon:"👨‍👩‍👦",main:"Stai la părinți, economisești",sub:"+bani, -fericire",effects:{money:+20,happiness:-10},memory:"Ai stat la părinți ceva mai mult"},
-    {icon:"🏘️",main:"Împarți cu prieteni",sub:"+social, +fericire",effects:{money:-10,social:+20,happiness:+20},memory:"Colegi de apartament memorabili"},
-    {icon:"🏗️",main:"Stai la un prieten plătind ceva",sub:"+bani economisiți, -intimitate",effects:{money:+10,social:+10,happiness:+5},memory:"Pe canapea la prieten, temporar"},
-   ]},
-  {minAge:21,maxAge:23,title:"Banii se termină",text:"Cardul arată -50 lei. Mai ai 2 săptămâni până la salariu/bursă. Ce faci?",
-   choices:[
-    {icon:"📞",main:"Suni acasă să ceri bani",sub:"+bani, -mândrie",effects:{money:+20,happiness:-5,social:+5},memory:"Primul telefon disperat acasă"},
-    {icon:"🍕",main:"Mănânci o pizza pe săptămână",sub:"+supraviețuire, -sănătate",effects:{money:+5,health:-10,happiness:-5},memory:"Dieta forțată a studentului"},
-    {icon:"💼",main:"Iei un job part-time urgent",sub:"+bani, -timp",effects:{money:+25,happiness:-5,career:+5},memory:"Job de noapte pentru supraviețuit"},
-    {icon:"🎲",main:"Joci poker cu colegii",sub:"50/50 șanse",effects:{money:Math.random()>0.5?+20:-15,happiness:+10},memory:"Seara de poker, cu suișuri și coborâșuri"},
-   ]},
-  {minAge:23,maxAge:25,title:"Prima slujbă adevărată",text:"CV-ul e trimis în 47 de locuri. Ai primit un singur răspuns. Interviul e mâine.",
-   choices:[
-    {icon:"💼",main:"Accepți orice, câștigi experiență",sub:"+carieră, +bani moderat",effects:{career:+20,money:+15,happiness:-5},memory:"Primul job, multă cafea și puțin somn"},
-    {icon:"🎯",main:"Negociezi salariul",sub:"+bani dacă reușești",effects:{money:+30,career:+15},memory:"Ai negociat primul salariu"},
-    {icon:"🌍",main:"Cauți la multinaționale",sub:"+bani mult, +carieră",effects:{money:+35,career:+30,happiness:-15},memory:"Corporate life din prima zi"},
-    {icon:"🏠",main:"Lucrezi remote, din casă",sub:"+confort, +libertate",effects:{money:+20,happiness:+15,career:+15},memory:"Remote work înainte să fie cool"},
-   ]},
-  // 24-30 ani
-  {minAge:24,maxAge:26,title:"Prieteni care pleacă",text:"Doi dintre cei mai buni prieteni pleacă în Germania. Îți lasă numărul, promit că revin.",
-   choices:[
-    {icon:"✈️",main:"Mergi și tu cu ei",sub:"+bani viitor, +aventură, -social acasă",effects:{money:+30,happiness:+15,social:-20},memory:"Ai plecat în Germania cu prietenii"},
-    {icon:"🇷🇴",main:"Rămâi, ești patriot",sub:"+social, +stabilitate",effects:{social:+10,happiness:-5},memory:"Ai ales să rămâi în România"},
-    {icon:"💻",main:"Rămâi dar lucrezi cu ei online",sub:"+bani, +social",effects:{money:+20,social:+10,happiness:+10},memory:"Remote cu prietenii din afară"},
-   ]},
-  {minAge:25,maxAge:28,title:"Criza de sfert de viață",text:"25 de ani. Toți par să știe ce fac cu viața lor. Tu mai puțin. E normal?",
-   choices:[
-    {icon:"🧘",main:"Mergi la terapie",sub:"+sănătate mentală, +claritate",effects:{health:+15,happiness:+15,money:-5},memory:"Terapia la 25 de ani, cea mai bună decizie"},
-    {icon:"🌍",main:"Călătorești singur/ă",sub:"+fericire, +perspectivă",effects:{happiness:+25,money:-15,social:+10},memory:"Singur/ă pe drum, revelații"},
-    {icon:"🏋️",main:"Devii obsedat/ă de sport",sub:"+sănătate, +disciplină",effects:{health:+25,happiness:+15,money:-5},memory:"Sala la 25, o nouă religie"},
-    {icon:"📱",main:"Compari cu alții pe social media",sub:"-fericire, +anxietate",effects:{happiness:-15,health:-5,social:+5},memory:"Toxicitatea Instagram la 25 ani"},
-   ]},
-  {minAge:26,maxAge:28,title:"Dragoste serioasă",text:"Ai întâlnit pe cineva special. Îți trimite poze cu pisici și îți aduce cafea. E serios.",
-   choices:[
-    {icon:"💍",main:"Vă mutați împreună",sub:"+fericire, +social",effects:{happiness:+25,social:+20,money:-15},memory:"V-ați mutat împreună, un pas mare"},
-    {icon:"🤔",main:"Mergi mai lent",sub:"+stabilitate mentală",effects:{happiness:+10,money:+5},memory:"Ai luat relația pas cu pas"},
-    {icon:"✈️",main:"Preferi libertatea",sub:"+fericire pe termen scurt",effects:{happiness:+20,social:-5,money:-10},memory:"Ai ales aventura în locul stabilității"},
-    {icon:"🐱",main:"Adopți o pisică, e mai simplu",sub:"+fericire, fără dramă",effects:{happiness:+20,health:+5,money:-5},memory:"Mița, cel mai bun partener"},
-   ]},
-  {minAge:27,maxAge:29,title:"Creditul bancar",text:"Banca îți oferă un credit pentru apartament. Sau poți cheltui pe altceva.",
-   choices:[
-    {icon:"🏠",main:"Iei un apartament pe credit",sub:"+stabilitate, -bani 30 ani",effects:{money:-30,happiness:+20,career:+5},memory:"Propria cheie, propria ușă"},
-    {icon:"🚗",main:"Cumperi o mașină",sub:"+mobilitate, +statut",effects:{money:-20,happiness:+15,social:+10},memory:"Prima mașină pe numele tău"},
-    {icon:"🌴",main:"Îl folosești pentru o vacanță epică",sub:"+fericire max, -bani",effects:{money:-15,happiness:+30},memory:"Vacanța vieții plătită pe credit"},
-    {icon:"📈",main:"Investești în acțiuni",sub:"+bani viitor, risc",effects:{money:+25,happiness:+10},memory:"Prima investiție la bursă"},
-   ]},
-  // 28-35 ani
-  {minAge:28,maxAge:32,title:"La 30 de ani",text:"Toți prietenii se căsătoresc, fac copii, cumpără case. Tu unde ești?",
-   choices:[
-    {icon:"👶",main:"Faci un copil, e momentul",sub:"+fericire profundă, -bani",effects:{happiness:+30,money:-25,health:-5},memory:"Ai deveni părinte, cea mai mare schimbare"},
-    {icon:"🏠",main:"Cumperi un apartament",sub:"+stabilitate, -bani",effects:{money:-40,happiness:+15},memory:"Ai luat un credit și o cheie"},
-    {icon:"🚀",main:"Lansezi o afacere proprie",sub:"+carieră, risc",effects:{career:+30,money:-20,happiness:+20},memory:"Ai pus bazele propriei afaceri"},
-    {icon:"😌",main:"Nu te grăbești, trăiești prezentul",sub:"+fericire, +sănătate",effects:{happiness:+15,health:+10},memory:"Ai ales ritmul tău de viață"},
-   ]},
-  {minAge:30,maxAge:33,title:"Colegul toxic",text:"La job, un coleg îți fură ideile și le prezintă ca ale lui. Șeful aplaudă. Tu ce faci?",
-   choices:[
-    {icon:"😤",main:"Îl confrontezi direct",sub:"+respect de sine, risc job",effects:{career:+10,happiness:+15,social:-10},memory:"L-ai confruntat pe mincinos"},
-    {icon:"🤫",main:"Documentezi totul și mergi la HR",sub:"+strategie, +succes treptat",effects:{career:+20,happiness:+10},memory:"Ai jucat cartea corectă cu HR-ul"},
-    {icon:"🚪",main:"Îți cauți alt job",sub:"+carieră nouă, +fericire",effects:{career:+15,happiness:+20,money:+10},memory:"Ai ales să pleci, cel mai bine"},
-    {icon:"😶",main:"Taci și continui",sub:"-stimă de sine, +stabilitate",effects:{happiness:-10,money:+5},memory:"Ai înghițit și ai continuat"},
-   ]},
-  {minAge:32,maxAge:35,title:"Burnout-ul corporatist",text:"5 ani de corporate. Emailuri la 11 noaptea. Reuniuni nesfârșite. Te stingi.",
-   choices:[
-    {icon:"🧘",main:"Iei o pauză, te resetezi",sub:"+sănătate, +fericire",effects:{health:+20,happiness:+15,money:-10},memory:"Ai luat curajul să te oprești"},
-    {icon:"💪",main:"Continui, banii merită",sub:"+bani, -sănătate",effects:{money:+25,health:-20,happiness:-15},memory:"Ai ales rezistența în fața epuizării"},
-    {icon:"🌱",main:"Schimbi domeniul complet",sub:"+fericire, +carieră nouă",effects:{happiness:+25,money:-15,career:+10},memory:"Ai dat totul pentru o schimbare radicală"},
-    {icon:"🏝️",main:"Iei concediu sabatic 3 luni",sub:"+resetare totală",effects:{health:+25,happiness:+25,money:-20,career:-5},memory:"3 luni departe de orice"},
-   ]},
-  // 33-40 ani situatii random
-  {minAge:33,maxAge:37,title:"Problemă de sănătate surpriză",text:"Analizele ies cu ceva ciudat. Medicul vrea investigații suplimentare. Ești speriat/ă.",
-   choices:[
-    {icon:"🏥",main:"Mergi urgent la specialist",sub:"+sănătate, -bani",effects:{health:+20,money:-15},memory:"Criza medicală rezolvată la timp"},
-    {icon:"🌿",main:"Iei plante medicinale și ignori",sub:"-sănătate, +negare",effects:{health:-15,happiness:-5},memory:"Ai ignorat semnele corpului"},
-    {icon:"🧑‍⚕️",main:"Faci un al doilea aviz medical",sub:"+siguranță, +decizie informată",effects:{health:+15,money:-10,happiness:+10},memory:"Al doilea aviz a schimbat diagnosticul"},
-   ]},
-  {minAge:35,maxAge:38,title:"Afacerea prietenului",text:"Un prieten bun îți propune să investești în afacerea lui. Are un plan de business.",
-   choices:[
-    {icon:"💰",main:"Investești jumătate din economii",sub:"Risc mare, câștig mare",effects:{money:Math.random()>0.4?+40:-30,social:+10,happiness:+10},memory:"Parteneriatul de afaceri"},
-    {icon:"🤝",main:"Îl ajuți fără să investești",sub:"+social, +relație",effects:{social:+20,happiness:+10},memory:"L-ai sprijinit fără a risca banii"},
-    {icon:"🤷",main:"Refuzi politicos",sub:"+siguranță financiară",effects:{money:+10,social:-5},memory:"Ai refuzat și poate a fost bine"},
-   ]},
-  // 36-50 ani
-  {minAge:36,maxAge:40,title:"Criza de 40",text:"Oglinda nu minte. Ai mai puțin păr și mai multă experiență. E bine sau rău?",
-   choices:[
-    {icon:"🏋️",main:"Începi să ai grijă de sănătate",sub:"+sănătate, +fericire",effects:{health:+25,happiness:+15},memory:"Ai descoperit sălile de sport la 40"},
-    {icon:"🏍️",main:"Cumperi o motocicletă",sub:"+fericire, criza de 40",effects:{happiness:+20,health:-5,money:-15},memory:"Criza de la 40 cu motocicletă"},
-    {icon:"🎓",main:"Mergi la un master/specializare",sub:"+educație, +carieră",effects:{edu:+20,career:+20,money:-10},memory:"La 40 de ani, înapoi la cărți"},
-    {icon:"🌾",main:"Îți cumperi un teren la țară",sub:"+liniște, +investiție",effects:{money:-20,happiness:+20,health:+5},memory:"Micul tău petec de pământ"},
-   ]},
-  {minAge:38,maxAge:42,title:"Divorțul sau ruptura",text:"Relația lungă se clatină. Nu mai aveți aceleași vise. Ce faci?",
-   choices:[
-    {icon:"💑",main:"Mergeți la terapie de cuplu",sub:"+șanse de salvare, +efort",effects:{happiness:+10,social:+10,money:-10},memory:"Terapia de cuplu – o ultimă șansă"},
-    {icon:"💔",main:"Separare amiabilă",sub:"+libertate, -tristețe temporară",effects:{happiness:-10,social:-5,health:+5},memory:"O despărțire cu demnitate"},
-    {icon:"🔥",main:"Continui cu dramă și certuri",sub:"-sănătate mentală",effects:{health:-15,happiness:-20,social:-10},memory:"Ani de certuri și regrete"},
-    {icon:"🌱",main:"Luați o pauză",sub:"+reflecție",effects:{happiness:+5,health:+5},memory:"Pauza care a clarificat totul"},
-   ]},
-  {minAge:42,maxAge:48,title:"Copiii cresc, părinții îmbătrânesc",text:"Ești prins la mijloc. Copilul tău are nevoi, părinții tăi au nevoie de tine.",
-   choices:[
-    {icon:"❤️",main:"Ești prezent pentru toți",sub:"+social, +fericire",effects:{social:+20,happiness:+20,money:-10,health:-10},memory:"Ai fost pilonul familiei la greu"},
-    {icon:"💸",main:"Rezolvi totul cu bani",sub:"-sănătate mentală",effects:{money:-20,happiness:-5,social:+10},memory:"Ai crezut că banii pot rezolva orice"},
-    {icon:"🏡",main:"Îi aduci pe toți sub același acoperiș",sub:"+familie, -spațiu",effects:{social:+25,happiness:+5,health:-5},memory:"Casa bunicilor, locul tuturor"},
-    {icon:"🧑‍⚕️",main:"Angajezi o îngrijitoare pentru părinți",sub:"+soluție, -bani",effects:{money:-15,happiness:+15,social:+10},memory:"Decizia practică și iubitoare"},
-   ]},
-  // situatii random extra
-  {minAge:20,maxAge:40,title:"Loto-ul vieții",text:"Ai cumpărat un bilet de loto de 5 lei. Numerele sunt extrase live pe televizor...",
-   choices:[
-    {icon:"🎰",main:"Câștigi 1000 lei!",sub:"Noroc chior",effects:{money:+20,happiness:+20},memory:"Micul câștig la loto"},
-    {icon:"😔",main:"Nu câștigi nimic",sub:"Ca de obicei în România",effects:{money:-1,happiness:-5},memory:"Loto – o donație voluntară"},
-    {icon:"🤑",main:"Câștigi 50.000 lei!",sub:"Viața e frumoasă",effects:{money:+60,happiness:+40},memory:"Câștigul cel mare la loto"},
-   ]},
-  {minAge:25,maxAge:45,title:"Mașina s-a stricat",text:"Ești în trafic pe autostradă. Mașina face un zgomot ciudat și se oprește. Toți claxonează.",
-   choices:[
-    {icon:"🔧",main:"Chemi serviciul de asistență",sub:"-bani, +siguranță",effects:{money:-10,happiness:-5,health:+5},memory:"Ziua de pe banda de urgență"},
-    {icon:"🚗",main:"Repari singur/ă, te pricepi",sub:"-timp, +mândrie",effects:{money:+10,happiness:+10,health:-5},memory:"Ai reparat mașina pe autostradă"},
-    {icon:"📱",main:"Suni un prieten mecanic",sub:"+social, +economii",effects:{money:+5,social:+10,happiness:+5},memory:"Prietenul mecanic, mai scump ca aurul"},
-   ]},
-  // Eveniment: condus băut
-  {minAge:20,maxAge:45,title:"Seară cu băutură",text:"E noaptea, ai băut la o petrecere. Mașina ta e în parcare. Prietenii s-au împrăștiat.",
-   choices:[
-    {icon:"🚗",main:"Conduci beat acasă, e aproape",sub:"Risc mortal — pentru tine și alții",effects:{health:-20,money:-10},deathRisk:{chance:0.25,cause:"Accident rutier în stare de ebrietate. N-ai ajuns acasă."},memory:"Seara în care ai riscat totul"},
-    {icon:"🚕",main:"Chemi un taxi/Uber",sub:"+siguranță, -bani",effects:{money:-5,happiness:+5,health:+5},memory:"Decizia bună de la miezul nopții"},
-    {icon:"🛋️",main:"Dormi la petrecere",sub:"+siguranță, +amintiri",effects:{happiness:+10,health:+5},memory:"Ai dormit pe canapeaua altcuiva"},
-    {icon:"🚶",main:"Mergi pe jos, e frig dar ok",sub:"+sănătate, +claritate",effects:{health:+5,happiness:+5},memory:"Drumul pe jos care te-a trezit"},
-   ]},
-  // Eveniment: sport extrem
-  {minAge:20,maxAge:40,title:"Adrenalină pură",text:"Un prieten te invită la schi în Bucegi, traseu negru, condiții proaste de vreme. Sau poți face ceva mai calm.",
-   choices:[
-    {icon:"⛷️",main:"Mergi pe traseul negru pe ceață",sub:"Adrenalină maximă, risc real",effects:{health:-10,happiness:+20},deathRisk:{chance:0.08,cause:"Accident pe pârtia neagră în Bucegi. Zăpada nu iartă."},memory:"Pârtia neagră din Bucegi"},
-    {icon:"🏔️",main:"Alegi un traseu mai ușor",sub:"+sănătate, +distracție",effects:{health:+10,happiness:+20,social:+10},memory:"O zi perfectă pe partie"},
-    {icon:"🏠",main:"Stai la cabană cu vin fiert",sub:"+fericire, +liniște",effects:{happiness:+15,social:+15},memory:"Vinul fiert la cabana din munte"},
-   ]},
-  {minAge:30,maxAge:50,title:"Concediu la mare",text:"E august, litoral, soare 40°C. Ai bilet de cazare la Venus.",
-   choices:[
-    {icon:"🌊",main:"Stai toată ziua pe plajă",sub:"+fericire, -sănătate (arsuri)",effects:{happiness:+25,health:-5},memory:"Arsurile de la mare, amintiri vii"},
-    {icon:"🍺",main:"Bere rece și mici toată ziua",sub:"+fericire, -sănătate",effects:{happiness:+30,health:-10,money:-10},memory:"Vii la mare, mici la grătar"},
-    {icon:"🚣",main:"Faci sporturi nautice",sub:"+sănătate, +adrenalină",effects:{health:+15,happiness:+20,money:-10},memory:"Ski nautic la Venus"},
-    {icon:"📚",main:"Citești cărți la umbră",sub:"+edu, +liniște",effects:{edu:+10,happiness:+15},memory:"Vacanță culturală la mare"},
-   ]},
-  {minAge:22,maxAge:35,title:"Prietenul te roagă să-i fii naș",text:"Cel mai bun prieten al tău se căsătorește și te-a ales naș/nașă. Onorant, dar scump.",
-   choices:[
-    {icon:"💍",main:"Accepți cu toată inima",sub:"+social, -bani mult",effects:{social:+30,happiness:+25,money:-30},memory:"Nășia, cea mai importantă onoare"},
-    {icon:"🤔",main:"Negociezi cheltuielile",sub:"+social cu compromis",effects:{social:+15,happiness:+10,money:-15},memory:"Nășia cu buget limitat"},
-    {icon:"😅",main:"Refuzi cu o scuză", sub:"-social, +bani salvați",effects:{social:-15,money:+20},memory:"Ai refuzat nășia, relație afectată"},
-   ]},
-  {minAge:28,maxAge:45,title:"Vecinul problemă",text:"Vecinul de la etajul de deasupra urlă și ascultă manele până dimineața. A treia săptămână consecutiv.",
-   choices:[
-    {icon:"🚔",main:"Chemi poliția",sub:"+liniște, -relație vecin",effects:{happiness:+15,social:-5},memory:"Poliția la 2 noaptea pentru manele"},
-    {icon:"🤝",main:"Vorbești cu el direct",sub:"+social dacă iese bine",effects:{social:+10,happiness:+10},memory:"Discuția la ușă despre maneliști"},
-    {icon:"🎧",main:"Iei căști cu anulare zgomot",sub:"+soluție, -bani",effects:{money:-10,happiness:+10},memory:"Căștile care ți-au salvat sănătatea"},
-    {icon:"🏠",main:"Cauți alt apartament",sub:"+liniște viitoare, mare schimbare",effects:{money:-20,happiness:+20},memory:"Ai mutat tot pentru liniște"},
-   ]},
-  // 50-70
-  {minAge:50,maxAge:55,title:"Pensionarea se apropie",text:"Colegii mai tineri îți cer sfaturi. Sistemul de pensii e confuz. Ce faci cu banii?",
-   choices:[
-    {icon:"📈",main:"Investești pentru pensie",sub:"+bani viitor, +securitate",effects:{money:+30,happiness:+10},memory:"Ai planificat viitorul din timp"},
-    {icon:"🌍",main:"Călătorești cât ești în putere",sub:"+fericire, -bani",effects:{happiness:+35,money:-20},memory:"Ai văzut lumea cât ai putut"},
-    {icon:"🌻",main:"Cumperi o casă la țară",sub:"+sănătate, +liniște",effects:{health:+20,happiness:+20,money:-25},memory:"Grădina de la țară, refugiul sufletului"},
-    {icon:"🎓",main:"Faci un curs nou",sub:"+edu, +carieră",effects:{edu:+20,career:+20,money:-10},memory:"La 50+ ani, ai mai învățat ceva nou"},
-   ]},
-  // Eveniment: dependenta de fumat/alcool pe termen lung
-  {minAge:35,maxAge:55,title:"Dependența s-a instalat",text:"Ani de fumat sau băut intens. Medicul găsește ceva serios la control. Îți spune că trebuie să te oprești acum.",
-   choices:[
-    {icon:"🚭",main:"Te oprești complet, schimbi stilul de viață",sub:"+sănătate mult, +ani de viață",effects:{health:+30,happiness:+10},memory:"Ziua în care ai renunțat la vicii"},
-    {icon:"🚬",main:"Reduci puțin, dar continui",sub:"-sănătate progresiv",effects:{health:-15,happiness:+5},memory:"Ai tăiat pe jumătate, nu suficient"},
-    {icon:"🍺",main:"Ignori medicul — trăim o dată",sub:"Risc mortal pe termen mediu",effects:{health:-30,happiness:+10},deathRisk:{chance:0.18,cause:"Ficatul sau plămânii au cedat. Medicul avusese dreptate."},memory:"Ai ales viciul în locul vieții"},
-   ]},
-  {minAge:52,maxAge:58,title:"Sănătatea începe să vorbească",text:"Medicul îți recomandă schimbări de viață. Genunchii te dor. Tensiunea e sus.",
-   choices:[
-    {icon:"🥗",main:"Schimbi alimentația complet",sub:"+sănătate, disciplină",effects:{health:+20,happiness:+10},memory:"Dieta de la 55, viață nouă"},
-    {icon:"🚶",main:"Mergi zilnic 30 minute",sub:"+sănătate, +liniște",effects:{health:+15,happiness:+10},memory:"Plimbările de dimineață"},
-    {icon:"💊",main:"Iei pastile și ignori sfaturile",sub:"-sănătate termen lung",effects:{health:-10,money:-5},memory:"Pastilele ca soluție unică"},
-    {icon:"🍟",main:"Continui ca până acum, YOLO",sub:"Risc cardiovascular serios",effects:{health:-25,happiness:+5},deathRisk:{chance:0.2,cause:"Infarct miocardic. Tensiunea ridicată ani de zile și-a spus cuvântul."},memory:"Ai ignorat toate semnele"},
-   ]},
-  // Eveniment: bungee jumping / activitate extremă
-  {minAge:18,maxAge:35,title:"Experiență extremă",text:"Prietenii te-au dus la un tur de bungee jumping lângă Sinaia. Instructorul pare... beat.",
-   choices:[
-    {icon:"🪂",main:"Sari — YOLO, e o dată în viață",sub:"Frisoane, risc real cu instructor suspect",effects:{happiness:+15,health:-5},deathRisk:{chance:0.07,cause:"Echipamentul defect n-a mai iertat. Instructorul era beat."},memory:"Saltul de la Sinaia"},
-    {icon:"📸",main:"Fotografiezi, nu sari",sub:"+amintiri fără risc",effects:{happiness:+10,social:+5},memory:"Ai fotografiat, nu ai sărit"},
-    {icon:"🚗",main:"Pleci, ceva nu ți se pare ok",sub:"+instinct bun",effects:{health:+5,happiness:+5},memory:"Instinctul tău te-a salvat"},
-   ]},
-  {minAge:60,maxAge:65,title:"Pensionarea",text:"Ultima zi la muncă. Colegii au organizat o petrecere mică. Cineva a adus tort.",
-   choices:[
-    {icon:"😌",main:"Te bucuri de libertate",sub:"+fericire, +sănătate",effects:{happiness:+30,health:+15},memory:"Pensia, cea mai frumoasă zi de luni"},
-    {icon:"🌱",main:"Începi un proiect nou",sub:"+carieră, +fericire",effects:{career:+10,happiness:+20},memory:"La pensie ai început ce n-ai apucat"},
-    {icon:"👴",main:"Te mulțumești cu ce e",sub:"+liniște",effects:{happiness:+15,health:+10},memory:"Ai primit pensia cu demnitate"},
-    {icon:"🌍",main:"Pleci într-o călătorie visată",sub:"+fericire maximă",effects:{happiness:+35,money:-20},memory:"Călătoria de la pensie, meritată"},
-   ]},
-  // 70+
-  {minAge:70,maxAge:75,title:"Ultimii ani",text:"Nepoții aleargă prin casă. Televizorul merge tot timpul. Viața are un ritm mai blând.",
-   choices:[
-    {icon:"📖",main:"Scrii memoriile vieții tale",sub:"+fericire, lasă ceva în urmă",effects:{happiness:+25,edu:+10},memory:"Ai scris tot ce ai trăit"},
-    {icon:"🌹",main:"Petreci tot timpul cu familia",sub:"+social, +fericire",effects:{social:+20,happiness:+30},memory:"Fiecare zi cu cei dragi, un cadou"},
-    {icon:"🙏",main:"Ești în pace cu tine însuți",sub:"+fericire profundă",effects:{happiness:+35,health:+5},memory:"Ai găsit liniștea la final"},
-    {icon:"🌱",main:"Îngrijești o grădină",sub:"+sănătate, +sens",effects:{health:+15,happiness:+20},memory:"Grădina bătrâneții, mică lume"},
-   ]},
-  {minAge:72,maxAge:80,title:"Nepoții vin în vizită",text:"Nepoții vin în weekend. Fac gălăgie și rup lucruri. Dar zâmbești.",
-   choices:[
-    {icon:"🧒",main:"Te joci cu ei toată ziua",sub:"+fericire, +energie",effects:{happiness:+30,health:+5},memory:"Weekendurile cu nepoții, pur și simplu fericite"},
-    {icon:"🍪",main:"Le faci prăjituri tot weekendul",sub:"+fericire, +tradiție",effects:{happiness:+25,social:+15},memory:"Prăjiturile bunicii, rețetă secretă"},
-    {icon:"📺",main:"Vă uitați la televizor împreună",sub:"+liniște, +social",effects:{happiness:+15,social:+10},memory:"Serialele bunicilor cu nepoții"},
-   ]},
-];
-
-const DEATH_CAUSES = [
-  {maxAge:20,text:"Un accident neașteptat..."},
-  {maxAge:40,text:"O boală rară..."},
-  {maxAge:60,text:"Inima a obosit..."},
-  {maxAge:75,text:"O viață trăită intens..."},
-  {maxAge:90,text:"De bătrânețe, înconjurat/ă de familie..."},
-  {maxAge:200,text:"Ai trăit mai mult decât oricine..."},
-];
-
-let state = {
-  city: CITIES[0],
-  cityIndex: 0,
-  lifeCount: 0,
-  age: 0,
-  health: 100,
-  money: 50,
-  happiness: 50,
-  edu: 0,
-  social: 50,
-  career: 0,
-  memories: [],
-  eventsUsed: [],
-  currentEvent: null,
-  birthEventDone: false,
-};
-
-function initStars() {
-  const c = document.getElementById('stars-canvas');
-  c.width = window.innerWidth; c.height = window.innerHeight;
-  const ctx = c.getContext('2d');
-  const stars = Array.from({length:200},()=>({
-    x:Math.random()*c.width, y:Math.random()*c.height,
-    r:Math.random()*1.5+0.3, alpha:Math.random()*0.8+0.2,
-    speed:Math.random()*0.3+0.1,
-  }));
-  function draw(){
-    ctx.clearRect(0,0,c.width,c.height);
-    stars.forEach(s=>{
-      ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
-      ctx.fillStyle=`rgba(255,255,255,${s.alpha})`;ctx.fill();
-      s.alpha+=Math.sin(Date.now()*0.001*s.speed)*0.02;
-      s.alpha=Math.max(0.1,Math.min(1,s.alpha));
-    });
-    requestAnimationFrame(draw);
+// ========================
+// HEARTS BACKGROUND
+// ========================
+function createHearts() {
+  const c = document.getElementById('heartsContainer');
+  const emojis = ['🌸','💕','✨','🦋','💖','🌺','💗','⭐','🎀'];
+  for(let i=0;i<20;i++){
+    const h=document.createElement('div');
+    h.className='heart-float';
+    h.textContent=emojis[Math.floor(Math.random()*emojis.length)];
+    h.style.cssText=`left:${Math.random()*100}%;animation-duration:${6+Math.random()*8}s;animation-delay:${-Math.random()*10}s;font-size:${0.8+Math.random()*1.5}rem;`;
+    c.appendChild(h);
   }
-  draw();
 }
 
-function drawSkyline(cityName, color) {
-  const c = document.getElementById('skyline-canvas');
-  c.width=700; c.height=200;
-  const ctx = c.getContext('2d');
-  ctx.clearRect(0,0,700,200);
-  const seed = cityName.charCodeAt(0)*7 + (cityName.charCodeAt(1)||0)*3;
-  const rng = (n) => { let x = Math.sin(seed+n)*10000; return x-Math.floor(x); };
-  const grad = ctx.createLinearGradient(0,0,0,200);
-  grad.addColorStop(0,'#000010'); grad.addColorStop(1,'#001030');
-  ctx.fillStyle=grad; ctx.fillRect(0,0,700,200);
+// String lights
+function createLights() {
+  const row = document.getElementById('lightsRow');
+  const cols = ['#ff69b4','#ff1493','#ffd700','#da70d6','#ff8c00','#98fb98','#7ec8e3'];
+  for(let i=0;i<18;i++){
+    const b=document.createElement('div');
+    b.className='light-bulb';
+    b.style.cssText=`background:${cols[i%cols.length]};box-shadow:0 0 8px ${cols[i%cols.length]};animation-delay:${Math.random()*2}s;`;
+    row.appendChild(b);
+  }
+}
+
+// ========================
+// INTRO → GAME TRANSITION
+// ========================
+function enterGame() {
+  const door = document.getElementById('entranceDoor');
+  door.classList.add('door-open');
+  setTimeout(()=>{
+    document.getElementById('intro-screen').classList.add('fade-to-game');
+    setTimeout(()=>{
+      document.getElementById('intro-screen').classList.remove('active');
+      document.getElementById('game-screen').classList.add('active');
+      loadSection('life');
+      updateUI();
+      startPhoneClock();
+      // Init mobile panels
+      if (isMobile()) {
+        mobSwitch('game');
+        document.getElementById('mobTab-game').classList.add('active');
+        document.getElementById('mobTab-stats').classList.remove('active');
+      }
+      showNotif('🌸','Bun venit în Pestera Mihaelei!');
+    },500);
+  },800);
+}
+
+// ========================
+// UI UPDATES
+// ========================
+function updateUI() {
+  document.getElementById('ageDisplay').textContent = `Vârsta: ${state.age} ani`;
+  document.getElementById('moneyDisplay').textContent = `${state.money} lei`;
+  setStat('Health', state.health);
+  setStat('Happy',  state.happy);
+  setStat('Smart',  state.smart);
+  setStat('Looks',  state.looks);
+  setStat('Mood',   state.mood);
+  document.getElementById('igFollowers').textContent = state.ig.followers;
+  document.getElementById('ttFollowers').textContent = state.tt.followers;
+  document.getElementById('snScore').textContent     = state.sn.score;
+  updatePhoneStats();
+}
+function setStat(name,val){
+  val=Math.max(0,Math.min(100,val));
+  const key=name.toLowerCase();
+  document.getElementById('s'+name).textContent=val+'%';
+  document.getElementById('b'+name).style.width=val+'%';
+}
+function updatePhoneStats(){
+  document.getElementById('ig-followers-ph').textContent=fmtNum(state.ig.followers);
+  document.getElementById('ig-likes-ph').textContent=fmtNum(state.ig.likes);
+  document.getElementById('ig-posts-ph').textContent=state.ig.posts;
+  document.getElementById('tt-followers-ph').textContent=fmtNum(state.tt.followers);
+  document.getElementById('tt-likes-ph').textContent=fmtNum(state.tt.likes);
+  document.getElementById('tt-views-ph').textContent=fmtNum(state.tt.views);
+  document.getElementById('sn-score-ph').textContent=state.sn.score;
+  document.getElementById('sn-streak-ph').textContent='🔥'+state.sn.streak;
+  document.getElementById('sn-friends-ph').textContent=state.sn.friends;
+}
+function fmtNum(n){if(n>=1000000)return(n/1000000).toFixed(1)+'M';if(n>=1000)return(n/1000).toFixed(1)+'K';return n;}
+
+function addLog(text){
+  state.log.unshift(text);
+  if(state.log.length>30)state.log.pop();
+  const el=document.getElementById('logEntries');
+  el.innerHTML=state.log.map(l=>`<div class="log-entry">${l}</div>`).join('');
+}
+
+// ========================
+// SECTIONS
+// ========================
+const sections = {
+  life: {
+    title:'🏠 Acasă cu Mihaela',
+    text:'Ce vrei să faci acasă?',
+    actions:[
+      {icon:'🛁',label:'Fă-te frumoasă',fn:()=>doAction('Mihaela s-a machicat și arată impecabil!',{looks:8,mood:5,happy:3},{time:30})},
+      {icon:'🍕',label:'Comandă pizza',fn:()=>doAction('Yummy! Pizza livrată!',{happy:10,health:-5,money:-35},{time:20})},
+      {icon:'🛏️',label:'Dormi',fn:()=>doAction('Mihaela s-a odihnit bine!',{health:15,mood:12,happy:5},{time:480})},
+      {icon:'📺',label:'Netflix',fn:()=>doAction('Maraton cu seriale!',{happy:8,mood:5,smart:-2},{time:120})},
+      {icon:'🧹',label:'Curăță camera',fn:()=>doAction('Camera arată perfect!',{mood:8,happy:5,money:0},{time:60})},
+      {icon:'🎨',label:'Pictează',fn:()=>doAction('Mihaela e o artistă!',{happy:12,smart:5,mood:10},{time:90})},
+    ]
+  },
+  school: {
+    title:'📚 La Școală',
+    text:'Alege ce să faci la școală:',
+    actions:[
+      {icon:'📖',label:'Învață serios',fn:()=>doAction('Mihaela a luat 10!',{smart:15,mood:-5,happy:-3},{time:120})},
+      {icon:'💬',label:'Flecărește',fn:()=>doAction('Gata, 5 prietene noi!',{happy:10,mood:8,smart:-5},{time:60})},
+      {icon:'😴',label:'Dormi în clasă',fn:()=>doAction('Profesorul te-a prins... -nota!',{mood:-10,smart:-5,happy:5},{time:45})},
+      {icon:'🎭',label:'Teatru',fn:()=>doAction('Standing ovation!',{happy:15,looks:5,smart:5},{time:90})},
+      {icon:'🏃',label:'Sport',fn:()=>doAction('Campioana clasei!',{health:10,mood:10,looks:5},{time:90})},
+      {icon:'🎯',label:'Olimpiadă',fn:()=>doAction('Aur la olimpiadă! +bani!',{smart:20,happy:15,money:200},{time:180})},
+    ]
+  },
+  social: {
+    title:'👫 Viața Socială',
+    text:'Alege o activitate socială:',
+    actions:[
+      {icon:'🛍️',label:'Shopping',fn:()=>doAction('Geantă nouă! Look upgrade!',{looks:10,happy:15,money:-80},{time:180})},
+      {icon:'☕',label:'Cafea cu prieteni',fn:()=>doAction('Seară perfectă!',{happy:12,mood:10,money:-25},{time:120})},
+      {icon:'💃',label:'Club',fn:()=>doAction('Dansezi toată noaptea!',{happy:20,health:-5,mood:15,money:-50},{time:240})},
+      {icon:'💅',label:'Salon',fn:()=>doAction('Unghii perfecte!',{looks:12,mood:10,money:-60},{time:90})},
+      {icon:'🎂',label:'Petrecere',fn:()=>doAction('Party epic! Noi follow-uri!',{happy:25,ig:{followers:20},tt:{followers:15}},{time:180})},
+      {icon:'🎤',label:'Karaoke',fn:()=>doAction('Vocea anului!',{happy:18,mood:15,money:-30},{time:120})},
+    ]
+  },
+  work: {
+    title:'💼 Muncă & Bani',
+    text:'Cum câștigă Mihaela bani?',
+    actions:[
+      {icon:'📸',label:'Ședință foto',fn:()=>doAction('Fotografii superbe! Bani aduși!',{looks:5,money:150,ig:{posts:1,followers:50}},{time:180})},
+      {icon:'🛒',label:'Joburi casnice',fn:()=>doAction('Curățat case - bani câștigați!',{money:80,health:-5,mood:-5},{time:240})},
+      {icon:'🎓',label:'Meditații',fn:()=>doAction('Predă matematica vecinilor!',{smart:5,money:100,mood:5},{time:120})},
+      {icon:'🖥️',label:'Freelance',fn:()=>doAction('Design grafic online! 💻',{smart:8,money:200,mood:3},{time:300})},
+      {icon:'🎪',label:'Eveniment',fn:()=>doAction('Prezintă un eveniment local!',{looks:5,happy:10,money:120,ig:{followers:30}},{time:180})},
+      {icon:'🚗',label:'Uber Eats',fn:()=>doAction('Livrare rapidă pe bicicletă!',{health:5,money:90,mood:-3},{time:240})},
+    ]
+  }
+};
+
+let currentSection='life';
+function showSection(s){
+  currentSection=s;
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+  loadSection(s);
+}
+function loadSection(s){
+  const sec=sections[s];
+  if(!sec)return;
+  document.getElementById('eventTitle').textContent=sec.title;
+  document.getElementById('eventText').textContent=sec.text;
+  const grid=document.getElementById('actionsGrid');
+  grid.innerHTML=sec.actions.map((a,i)=>`
+    <button class="action-btn slide-in" style="animation-delay:${i*0.07}s" onclick="(${a.fn.toString()})()">
+      <span class="action-icon">${a.icon}</span>${a.label}
+    </button>`).join('');
+}
+
+// ========================
+// ACTION SYSTEM
+// ========================
+function doAction(msg, effects={}, opts={}){
+  // Apply effects
+  if(effects.health !== undefined) state.health = clamp(state.health + effects.health);
+  if(effects.happy  !== undefined) state.happy  = clamp(state.happy  + effects.happy);
+  if(effects.smart  !== undefined) state.smart  = clamp(state.smart  + effects.smart);
+  if(effects.looks  !== undefined) state.looks  = clamp(state.looks  + effects.looks);
+  if(effects.mood   !== undefined) state.mood   = clamp(state.mood   + effects.mood);
+  if(effects.money  !== undefined) state.money  = Math.max(0, state.money + effects.money);
+  if(effects.ig){
+    if(effects.ig.followers) { state.ig.followers += effects.ig.followers; }
+    if(effects.ig.likes)     { state.ig.likes     += effects.ig.likes; }
+    if(effects.ig.posts)     { state.ig.posts     += effects.ig.posts; }
+  }
+  if(effects.tt){
+    if(effects.tt.followers) { state.tt.followers += effects.tt.followers; }
+    if(effects.tt.likes)     { state.tt.likes     += effects.tt.likes; }
+    if(effects.tt.views)     { state.tt.views     += effects.tt.views; }
+  }
+
+  document.getElementById('eventTitle').textContent='✨ Rezultat';
+  document.getElementById('eventText').textContent=msg;
+  addLog(msg);
+  updateUI();
+  showNotif('🌸', msg.length>40 ? msg.substring(0,40)+'...' : msg);
+}
+
+function clamp(v){return Math.max(0,Math.min(100,v));}
+
+// ========================
+// ADVANCE AGE
+// ========================
+function advanceAge(){
+  state.age++;
+  state.year++;
+  const events=[
+    {msg:`Mihaela a împlinit ${state.age} ani! 🎂 La mulți ani!`, effects:{happy:20,health:-2}},
+    {msg:`Un an nou plin de aventuri! Mihaela a crescut!`, effects:{smart:5,mood:10}},
+    {msg:`${state.age} ani - o adevărată femeie de succes!`, effects:{looks:5,happy:15}},
+  ];
+  const ev=events[Math.random()*events.length|0];
+  doAction(ev.msg, ev.effects);
+  confetti();
+  showNotif('🎂',`La mulți ani, Mihaela! ${state.age} ani!`);
+}
+
+// ========================
+// PHONE CLOCK
+// ========================
+function startPhoneClock(){
+  function tick(){
+    const now=new Date();
+    const h=String(now.getHours()).padStart(2,'0');
+    const m=String(now.getMinutes()).padStart(2,'0');
+    document.getElementById('phTime').textContent=h+':'+m;
+    const days=['Duminică','Luni','Marți','Miercuri','Joi','Vineri','Sâmbătă'];
+    const months=['Ian','Feb','Mar','Apr','Mai','Iun','Iul','Aug','Sep','Oct','Nov','Dec'];
+    document.getElementById('phDate').textContent=`${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]}`;
+  }
+  tick(); setInterval(tick,30000);
+}
+
+// ========================
+// PHONE APPS
+// ========================
+const igActions=[
+  {icon:'📸',label:'Postează un selfie',fn:()=>socialAction('ig','selfie')},
+  {icon:'💃',label:'Reel cu dans',fn:()=>socialAction('ig','reel')},
+  {icon:'🎨',label:'Colaj aesthetic',fn:()=>socialAction('ig','colaj')},
+  {icon:'❤️',label:'Like și comentarii',fn:()=>socialAction('ig','engage')},
+  {icon:'🤝',label:'Colaborare',fn:()=>socialAction('ig','collab')},
+  {icon:'📢',label:'Story cu sondaj',fn:()=>socialAction('ig','story')},
+];
+const ttActions=[
+  {icon:'🎵',label:'Duet cu trending',fn:()=>socialAction('tt','duet')},
+  {icon:'💃',label:'Trend de dans',fn:()=>socialAction('tt','dans')},
+  {icon:'😂',label:'Video funny',fn:()=>socialAction('tt','funny')},
+  {icon:'🎓',label:'Tutorial make-up',fn:()=>socialAction('tt','tutorial')},
+  {icon:'🔥',label:'Live stream',fn:()=>socialAction('tt','live')},
+  {icon:'🎤',label:'Lip sync',fn:()=>socialAction('tt','lipsync')},
+];
+const snActions=[
+  {icon:'📸',label:'Snap zilnic',fn:()=>socialAction('sn','snap')},
+  {icon:'🌟',label:'Story blink',fn:()=>socialAction('sn','story')},
+  {icon:'➕',label:'Adaugă prieteni',fn:()=>socialAction('sn','friends')},
+  {icon:'🔥',label:'Menține streak',fn:()=>socialAction('sn','streak')},
+];
+
+function buildPhActions(listId, actions){
+  document.getElementById(listId).innerHTML=actions.map(a=>`
+    <div class="ph-action" onclick="(${a.fn.toString()})()">
+      <span class="ph-action-icon">${a.icon}</span>
+      <span>${a.label}</span>
+    </div>`).join('');
+}
+
+function socialAction(platform, type){
+  const chance=Math.random();
+  let msg='', fg=0, fl=0, fv=0;
+
+  if(platform==='ig'){
+    if(type==='selfie'){fl=rand(20,80);fg=rand(5,40);msg=`Selfie postat! +${fg} urmăritori, +${fl} like-uri!`;}
+    else if(type==='reel'){fl=rand(50,300);fg=rand(20,100);msg=`Reel viral! +${fg} urmăritori!`;}
+    else if(type==='colaj'){fl=rand(30,120);fg=rand(10,60);msg=`Colaj aesthetic! Toată lumea îl apreciază!`;}
+    else if(type==='engage'){fg=rand(5,25);fl=rand(10,50);msg=`Ai dat like și comentarii! Comunitate fericită!`;}
+    else if(type==='collab'){fg=rand(100,500);fl=rand(200,800);msg=`Colaborare reușită! Mega creștere!`;}
+    else if(type==='story'){fg=rand(15,60);msg=`Story cu sondaj - engagement mare!`;}
+    state.ig.followers+=fg; state.ig.likes+=fl; state.ig.posts+=(type==='selfie'||type==='reel'||type==='colaj'?1:0);
+    doAction(msg,{happy:5,mood:5}); updatePhoneStats();
+  }
+  else if(platform==='tt'){
+    if(type==='duet'){fv=rand(500,5000);fg=rand(30,200);msg=`Duet la trending! ${fmtNum(fv)} vizualizări!`;}
+    else if(type==='dans'){fv=rand(1000,20000);fg=rand(50,400);msg=`Dans viral! ${fmtNum(fv)} views!`;}
+    else if(type==='funny'){fv=rand(200,3000);fg=rand(10,100);msg=`Video amuzant! Oamenii râd!`;}
+    else if(type==='tutorial'){fv=rand(800,8000);fg=rand(40,200);msg=`Tutorial make-up super util!`;}
+    else if(type==='live'){fv=rand(300,2000);fg=rand(20,80);fl=rand(100,500);msg=`Live stream! ${fg} urmăritori noi!`;}
+    else if(type==='lipsync'){fv=rand(600,6000);fg=rand(25,150);msg=`Lip sync perfect!`;}
+    state.tt.followers+=fg; state.tt.views+=fv; state.tt.likes+=fl;
+    doAction(msg,{happy:8,mood:5}); updatePhoneStats();
+  }
+  else if(platform==='sn'){
+    if(type==='snap'){state.sn.score+=rand(5,20);msg=`Snap trimis! Scor crescut!`;}
+    else if(type==='story'){state.sn.score+=rand(10,30);msg=`Story epic pe Snap!`;}
+    else if(type==='friends'){state.sn.friends+=rand(1,5);msg=`Prieteni noi pe Snap!`;}
+    else if(type==='streak'){state.sn.streak+=1;state.sn.score+=15;msg=`Streak menținut! 🔥${state.sn.streak}`;}
+    doAction(msg,{happy:3,mood:3}); updatePhoneStats();
+  }
+  document.getElementById('igFollowers').textContent=state.ig.followers;
+  document.getElementById('ttFollowers').textContent=state.tt.followers;
+  document.getElementById('snScore').textContent=state.sn.score;
+}
+
+function rand(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
+
+function openPhApp(app){
+  document.querySelectorAll('.p-screen').forEach(s=>s.classList.remove('active'));
+  if(app==='instagram'){
+    document.getElementById('ph-instagram').classList.add('active');
+    buildPhActions('ig-actions',igActions);
+  } else if(app==='tiktok'){
+    document.getElementById('ph-tiktok').classList.add('active');
+    buildPhActions('tt-actions',ttActions);
+  } else if(app==='snapchat'){
+    document.getElementById('ph-snapchat').classList.add('active');
+    buildPhActions('sn-actions',snActions);
+  } else if(app==='messages'){
+    document.getElementById('ph-messages').classList.add('active');
+    document.getElementById('abuziva-chat').style.display='none';
+    document.getElementById('abuziva-chat').classList.remove('visible');
+    document.getElementById('contacts-list').style.display='block';
+  }
+  updatePhoneStats();
+}
+function closePhApp(){
+  document.querySelectorAll('.p-screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('ph-home').classList.add('active');
+}
+
+// Messages
+function openChat(){
+  document.getElementById('contacts-list').style.display='none';
+  document.getElementById('abuziva-chat').style.display='flex';
+}
+function closeChat(){
+  document.getElementById('abuziva-chat').style.display='none';
+  document.getElementById('contacts-list').style.display='block';
+}
+const replies=[
+  'bine merg si eu 😈','ce fa esti acasa?','ia bani de la mama ta lol','stai ca ajung','nu mai scrie atata','ok dar rapide','😂😂😂 serios?','bineeeee',
+];
+let replyIdx=0;
+function replyChat(){
+  const body=document.getElementById('chatBody');
+  const userReplies=['ok vin!','nu pot azi 😅','ce bricheta??','vine-vine 🏃‍♀️','ooo da sigur!'];
+  const sent=document.createElement('div');
+  sent.className='msg-bubble sent';
+  sent.textContent=userReplies[Math.floor(Math.random()*userReplies.length)];
+  body.appendChild(sent);
+  setTimeout(()=>{
+    const recv=document.createElement('div');
+    recv.className='msg-bubble received';
+    recv.textContent=replies[replyIdx%replies.length];
+    replyIdx++;
+    body.appendChild(recv);
+    body.scrollTop=body.scrollHeight;
+  },800);
+  body.scrollTop=body.scrollHeight;
+  doAction('Mihaela a chat-uit cu pretena ei abuziva 😬',{mood:-5,happy:-3});
+}
+
+// ========================
+// NOTIFICATION
+// ========================
+let notifTimeout;
+function showNotif(icon, text){
+  const n=document.getElementById('notification');
+  document.getElementById('notifIcon').textContent=icon;
+  document.getElementById('notifText').textContent=text;
+  n.classList.add('show');
+  clearTimeout(notifTimeout);
+  notifTimeout=setTimeout(()=>n.classList.remove('show'),3000);
+}
+
+// ========================
+// CONFETTI
+// ========================
+function confetti(){
+  const box=document.getElementById('confettiBox');
+  const colors=['#ff69b4','#ff1493','#ffd700','#da70d6','#ff8c00','#98fb98'];
   for(let i=0;i<60;i++){
-    ctx.beginPath();ctx.arc(rng(i)*700,rng(i+1)*100,rng(i+2)*1.5+0.3,0,Math.PI*2);
-    ctx.fillStyle=`rgba(255,255,255,${rng(i+3)*0.8+0.1})`;ctx.fill();
+    const p=document.createElement('div');
+    p.className='confetti-piece';
+    p.style.cssText=`left:${Math.random()*100}%;top:-10px;background:${colors[Math.floor(Math.random()*colors.length)]};animation-delay:${Math.random()*0.5}s;animation-duration:${1.5+Math.random()*1}s;transform:rotate(${Math.random()*360}deg);`;
+    box.appendChild(p);
+    setTimeout(()=>p.remove(),3000);
   }
-  ctx.beginPath();ctx.arc(600,30,20,0,Math.PI*2);
-  ctx.fillStyle='rgba(255,240,180,0.8)';ctx.fill();
-  const buildingColor = color||'#1a3a6a';
-  const buildings = [];
-  let x=0;
-  while(x<700){
-    const w=30+rng(x)*50; const h=50+rng(x+1)*130;
-    buildings.push({x,w,h:200-h}); x+=w+2;
+}
+
+// ========================
+// CAT SOUND (Web Audio)
+// ========================
+function playCatSound(){
+  try {
+    const ctx=new (window.AudioContext||window.webkitAudioContext)();
+    const osc=ctx.createOscillator();
+    const gain=ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    // Meow-like sound
+    osc.frequency.setValueAtTime(800,ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(600,ctx.currentTime+0.1);
+    osc.frequency.exponentialRampToValueAtTime(900,ctx.currentTime+0.2);
+    osc.frequency.exponentialRampToValueAtTime(500,ctx.currentTime+0.4);
+    gain.gain.setValueAtTime(0.3,ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.5);
+    osc.type='sine';
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime+0.5);
+    showNotif('🐱','Meow! 10 puncte la Flappy!');
+  } catch(e){}
+}
+
+// ========================
+// FLAPPY BIRD
+// ========================
+let flappyRunning=false, flappyScore=0, flappyBest=0;
+let bird, pipes, frame, animId, gameOver;
+
+function openFlappy(){
+  document.getElementById('game-screen-flappy').classList.add('active');
+  // Resize canvas for mobile
+  const canvas = document.getElementById('flappy-canvas');
+  if (isMobile()) {
+    canvas.width = Math.min(360, window.innerWidth - 20);
+    canvas.height = Math.min(500, window.innerHeight - 80);
+  } else {
+    canvas.width = 360; canvas.height = 500;
   }
-  buildings.forEach((b,i)=>{
-    if(i%3===0){ctx.fillStyle='rgba(10,20,60,0.8)';ctx.fillRect(b.x+20,b.h-20,b.w+10,200-b.h+20);}
-  });
-  buildings.forEach((b,i)=>{
-    const shade=0.4+rng(i)*0.3;
-    ctx.fillStyle=buildingColor; ctx.globalAlpha=shade;
-    ctx.fillRect(b.x,b.h,b.w,200-b.h); ctx.globalAlpha=1;
-    for(let wy=b.h+8;wy<195;wy+=12){
-      for(let wx=b.x+4;wx<b.x+b.w-4;wx+=10){
-        if(rng(wx+wy)>0.4){
-          ctx.fillStyle=rng(wx*wy)>0.5?'rgba(255,220,100,0.8)':'rgba(100,150,255,0.5)';
-          ctx.fillRect(wx,wy,6,8);
+  initFlappy();
+}
+function closeFlappy(){
+  document.getElementById('game-screen-flappy').classList.remove('active');
+  flappyRunning=false;
+  if(animId) cancelAnimationFrame(animId);
+}
+
+function initFlappy(){
+  const canvas=document.getElementById('flappy-canvas');
+  const ctx=canvas.getContext('2d');
+  flappyScore=0; gameOver=false; flappyRunning=true;
+  document.getElementById('flappyScore').textContent='0';
+
+  bird={ x:80, y:250, vy:0, size:20 };
+  pipes=[];
+  frame=0;
+  let lastScoreSound=-1;
+
+  function spawnPipe(){
+    const gap=140, gapY=80+Math.random()*(canvas.height-200);
+    pipes.push({x:canvas.width,top:gapY,bottom:gapY+gap,w:50,scored:false});
+  }
+
+  function loop(){
+    if(!flappyRunning){return;}
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    // Sky
+    const sky=ctx.createLinearGradient(0,0,0,canvas.height);
+    sky.addColorStop(0,'#70c5ce'); sky.addColorStop(1,'#c8e6f0');
+    ctx.fillStyle=sky; ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    // Ground
+    ctx.fillStyle='#ded895'; ctx.fillRect(0,canvas.height-40,canvas.width,40);
+    ctx.fillStyle='#4caf50'; ctx.fillRect(0,canvas.height-44,canvas.width,6);
+
+    // Physics
+    if(!gameOver){ bird.vy+=0.35; bird.y+=bird.vy; }
+    if(bird.y>canvas.height-55){bird.y=canvas.height-55;endFlappy(ctx);}
+    if(bird.y<0){bird.y=0;bird.vy=0;}
+
+    // Pipes
+    if(frame%90===0) spawnPipe();
+    for(let i=pipes.length-1;i>=0;i--){
+      const p=pipes[i];
+      if(!gameOver) p.x-=2.5;
+      // Pipe colors
+      ctx.fillStyle='#4caf50';
+      ctx.fillRect(p.x,0,p.w,p.top);
+      ctx.fillRect(p.x,p.bottom,p.w,canvas.height-p.bottom-40);
+      ctx.fillStyle='#388e3c';
+      ctx.fillRect(p.x-4,p.top-18,p.w+8,18);
+      ctx.fillRect(p.x-4,p.bottom,p.w+8,18);
+      // Score
+      if(!p.scored && p.x+p.w < bird.x){
+        p.scored=true; flappyScore++;
+        document.getElementById('flappyScore').textContent=flappyScore;
+        // Cat sound every 10 points
+        if(flappyScore%10===0 && flappyScore!==lastScoreSound){
+          lastScoreSound=flappyScore; playCatSound();
         }
       }
+      if(p.x+p.w<0) pipes.splice(i,1);
+      // Collision
+      if(!gameOver && bird.x+bird.size-4>p.x && bird.x<p.x+p.w){
+        if(bird.y<p.top || bird.y+bird.size>p.bottom) endFlappy(ctx);
+      }
     }
-  });
-  ctx.fillStyle='#0a0a1a'; ctx.fillRect(0,185,700,15);
-  const rg=ctx.createLinearGradient(0,185,0,200);
-  rg.addColorStop(0,'rgba(255,220,100,0.1)');rg.addColorStop(1,'transparent');
-  ctx.fillStyle=rg; ctx.fillRect(0,185,700,15);
-}
 
-function getPhase(age){
-  if(age<1) return "Nou-născut 👶";
-  if(age<6) return "Copil mic 🧸";
-  if(age<13) return "Copil 🏫";
-  if(age<18) return "Adolescent 🎒";
-  if(age<25) return "Tânăr adult 🎓";
-  if(age<35) return "Adult 💼";
-  if(age<50) return "La mijloc 🌿";
-  if(age<65) return "Matur 🌅";
-  if(age<80) return "Senior 🏡";
-  return "Legendă 👴";
-}
+    // Bird (Mihaela emoji-style)
+    ctx.save();
+    ctx.translate(bird.x+bird.size/2,bird.y+bird.size/2);
+    ctx.rotate(Math.min(Math.max(bird.vy*0.04,-0.5),0.5));
+    ctx.font=`${bird.size+8}px serif`;
+    ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.fillText('🌸',0,0);
+    ctx.restore();
 
-function showNotif(text,color='var(--gold)'){
-  const n=document.getElementById('notif');
-  n.style.color=color; n.innerHTML=text;
-  n.classList.add('show');
-  setTimeout(()=>n.classList.remove('show'),2500);
-}
-
-function clamp(v){return Math.max(0,Math.min(100,v))}
-
-function updateStats(){
-  ['health','money','happiness','edu','social','career'].forEach(k=>{
-    const v=clamp(state[k]);
-    document.getElementById(`sv-${k}`).textContent=v;
-    document.getElementById(`sf-${k}`).style.width=v+'%';
-  });
-  document.getElementById('hval').textContent=clamp(state.health);
-  document.getElementById('hbar').style.width=clamp(state.health)+'%';
-  document.getElementById('mval').textContent=clamp(state.money);
-  document.getElementById('mbar').style.width=clamp(state.money)+'%';
-  document.getElementById('fval').textContent=clamp(state.happiness);
-  document.getElementById('fbar').style.width=clamp(state.happiness)+'%';
-  document.getElementById('age-number').textContent=state.age;
-  document.getElementById('age-label').textContent=state.age===1?'AN':'ANI';
-  document.getElementById('life-phase').textContent=getPhase(state.age);
-  document.getElementById('city-label').textContent=state.city.emoji+' '+state.city.name;
-}
-
-function addMemory(text){
-  state.memories.unshift(`[${state.age} ani] ${text}`);
-  if(state.memories.length>20) state.memories.pop();
-  const list=document.getElementById('memory-list');
-  list.innerHTML=state.memories.slice(0,8).map(m=>`<div class="memory-item">${m}</div>`).join('');
-}
-
-function getNextEvent(){
-  if(!state.birthEventDone) return null;
-
-  // Try exact age range first
-  let available = EVENTS.filter(e=>
-    state.age >= e.minAge &&
-    state.age <= e.maxAge + 5 &&
-    !state.eventsUsed.includes(e.title)
-  );
-
-  // Fallback: any unused event with minAge <= current age (for gaps)
-  if(available.length===0){
-    available = EVENTS.filter(e=>
-      e.minAge <= state.age &&
-      !state.eventsUsed.includes(e.title)
-    );
+    frame++;
+    if(flappyRunning) animId=requestAnimationFrame(loop);
   }
 
-  if(available.length===0) return null;
-  return available.sort(()=>Math.random()-0.5)[0];
+  // Input
+  function flap(){ if(!gameOver){bird.vy=-7;} else { resetFlappy(); } }
+  canvas.onclick=flap;
+  document.onkeydown=e=>{ if(e.code==='Space'&&flappyRunning) flap(); };
+
+  loop();
 }
 
-// ===== DEATH SYSTEM =====
-// deathRisk on a choice: {chance: 0.0-1.0, cause: "text"}
-// Natural death only at very old age OR health=0 from cumulated damage
-// NO random early death without player choices causing it
-
-function shouldNaturalDie(){
-  // Natural death only 75+, and only if very old
-  if(state.age>=95) return Math.random()<0.5;
-  if(state.age>=85) return Math.random()<0.2;
-  if(state.age>=75) return Math.random()<0.06;
-  // health completely drained by bad choices
-  if(state.health<=0) return true;
-  return false;
+function endFlappy(ctx){
+  if(gameOver)return;
+  gameOver=true; flappyRunning=false;
+  if(flappyScore>flappyBest) flappyBest=flappyScore;
+  const canvas=document.getElementById('flappy-canvas');
+  ctx.fillStyle='rgba(0,0,0,0.5)';
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle='white'; ctx.font='bold 24px Pacifico, cursive';
+  ctx.textAlign='center';
+  ctx.fillText('Game Over! 💔',canvas.width/2,180);
+  ctx.font='16px Nunito, sans-serif';
+  ctx.fillText(`Scor: ${flappyScore}  |  Best: ${flappyBest}`,canvas.width/2,215);
+  ctx.font='14px Nunito, sans-serif';
+  ctx.fillText('Click / Space pentru restart',canvas.width/2,250);
+  // Give some game reward
+  state.money+=flappyScore*2;
+  doAction(`Ai jucat Flappy Mihaela! Scor: ${flappyScore}. +${flappyScore*2} lei!`,{happy:5});
+  updateUI();
 }
 
-function renderEvent(event){
-  state.currentEvent=event;
-  if(event.title) state.eventsUsed.push(event.title);
-  const text=(event.text||'').replace('{city}',state.city.name);
-  document.getElementById('story-age-badge').textContent=`Vârsta: ${state.age} ani`;
-  document.getElementById('story-title').textContent=event.title||'';
-  document.getElementById('story-text').textContent=text;
-  const cc=document.getElementById('choices-container');
-  cc.innerHTML='';
-  event.choices.forEach((choice)=>{
-    const btn=document.createElement('button');
-    btn.className='choice-btn';
-    const effectsHtml=Object.entries(choice.effects).map(([k,v])=>{
-      const labels={health:'❤️',money:'💸',happiness:'😊',edu:'🎓',social:'🤝',career:'🏆'};
-      if(!labels[k]) return '';
-      const cls=v>0?'effect-pos':v<0?'effect-neg':'effect-neu';
-      return `<span class="effect-tag ${cls}">${labels[k]} ${v>0?'+':''}${Math.round(v)}</span>`;
-    }).join('');
-    // Show danger warning if choice has deathRisk
-    const dangerHtml = choice.deathRisk
-      ? `<span class="effect-tag effect-neg" style="animation:pulse-warn 0.8s infinite alternate">☠️ RISC MORTAL ${Math.round(choice.deathRisk.chance*100)}%</span>`
-      : '';
-    btn.innerHTML=`
-      <div class="choice-icon">${choice.icon}</div>
-      <div class="choice-content">
-        <div class="choice-main">${choice.main}</div>
-        <div class="choice-sub">${choice.sub}</div>
-        <div class="choice-effects">${effectsHtml}${dangerHtml}</div>
-      </div>`;
-    btn.onclick=()=>makeChoice(choice);
-    cc.appendChild(btn);
-  });
-  document.getElementById('game-main').scrollTo({top:0,behavior:'smooth'});
+function resetFlappy(){
+  flappyRunning=false;
+  if(animId) cancelAnimationFrame(animId);
+  setTimeout(()=>initFlappy(),100);
 }
 
-function makeChoice(choice){
-  // Apply stat effects
-  Object.entries(choice.effects).forEach(([k,v])=>{
-    if(state[k]!==undefined) state[k]=clamp(state[k]+v);
-  });
-  if(choice.memory) addMemory(choice.memory);
+// ========================
+// MOBILE TAB SWITCHING
+// ========================
+function isMobile() { return window.innerWidth <= 768; }
 
-  // Check dangerous choice instant death
-  if(choice.deathRisk && Math.random() < choice.deathRisk.chance){
-    state.deathCause = choice.deathRisk.cause;
-    if(!state.birthEventDone) state.birthEventDone=true;
-    updateStats();
-    setTimeout(showDeathScreen,800);
-    return;
+function mobSwitch(tab) {
+  if (!isMobile()) return;
+  document.querySelector('.left-panel').classList.remove('mob-active');
+  document.querySelector('.center-panel').classList.remove('mob-active');
+  document.querySelector('.right-panel').classList.remove('mob-active');
+  document.querySelectorAll('.mob-tab').forEach(t => t.classList.remove('active'));
+
+  if (tab === 'stats') {
+    document.querySelector('.left-panel').classList.add('mob-active');
+    document.getElementById('mobTab-stats').classList.add('active');
+  } else if (tab === 'game') {
+    document.querySelector('.center-panel').classList.add('mob-active');
+    document.getElementById('mobTab-game').classList.add('active');
+  } else if (tab === 'phone') {
+    document.querySelector('.right-panel').classList.add('mob-active');
+    document.getElementById('mobTab-phone').classList.add('active');
   }
-
-  // First birth event done
-  if(!state.birthEventDone){
-    state.birthEventDone=true;
-    state.age=2; // start at 2 so minAge:2 events are found
-  } else {
-    const ageGain = 2+Math.floor(Math.random()*4);
-    state.age+=ageGain;
-  }
-
-  updateStats();
-
-  // Natural/health death
-  if(shouldNaturalDie()){
-    setTimeout(showDeathScreen,800);
-    return;
-  }
-
-  const next=getNextEvent();
-  if(!next||state.age>105){setTimeout(showDeathScreen,800);return;}
-  document.getElementById('story-card').style.opacity='0';
-  document.getElementById('story-card').style.transform='translateY(10px)';
-  setTimeout(()=>{
-    renderEvent(next);
-    document.getElementById('story-card').style.transition='all 0.4s ease';
-    document.getElementById('story-card').style.opacity='1';
-    document.getElementById('story-card').style.transform='translateY(0)';
-  },400);
 }
 
-function showDeathScreen(){
-  document.getElementById('game-ui').style.display='none';
-  const ds=document.getElementById('death-screen');
-  ds.style.display='flex';
-  const cause = state.deathCause || DEATH_CAUSES.find(d=>state.age<=d.maxAge)?.text || "O viață trăită...";
-  document.getElementById('death-age').textContent=`Ai trăit ${state.age} ani`;
-  document.getElementById('death-city').textContent=`${state.city.emoji} ${state.city.name} — ${cause}`;
-  const score=Math.round((state.health+state.money+state.happiness+state.edu+state.social+state.career)/6);
-  document.getElementById('summary-stats').innerHTML=`
-    <div class="sum-stat"><div class="sum-label">❤️ Sănătate finală</div><div class="sum-value">${clamp(state.health)}/100</div></div>
-    <div class="sum-stat"><div class="sum-label">💸 Bani</div><div class="sum-value">${clamp(state.money)}/100</div></div>
-    <div class="sum-stat"><div class="sum-label">😊 Fericire</div><div class="sum-value">${clamp(state.happiness)}/100</div></div>
-    <div class="sum-stat"><div class="sum-label">🎓 Educație</div><div class="sum-value">${clamp(state.edu)}/100</div></div>
-    <div class="sum-stat"><div class="sum-label">🤝 Relații</div><div class="sum-value">${clamp(state.social)}/100</div></div>
-    <div class="sum-stat"><div class="sum-label">⭐ Scor total</div><div class="sum-value" style="color:var(--gold)">${score}/100</div></div>`;
-  document.getElementById('mem-lines').innerHTML=state.memories.slice(0,6).map(m=>`<div class="mem-line">${m}</div>`).join('');
-  const nextIdx=(state.cityIndex+1)%CITIES.length;
-  document.getElementById('next-city-preview').textContent=`Următoarea viață: ${CITIES[nextIdx].emoji} ${CITIES[nextIdx].name}`;
-}
+// ========================
+// INIT
+// ========================
+createHearts();
+createLights();
 
-function startNewLife(){
-  state.cityIndex=(state.cityIndex+1)%CITIES.length;
-  state.lifeCount++;
-  document.getElementById('death-screen').style.display='none';
-  const newCity=CITIES[state.cityIndex];
-  showCityIntro(newCity,()=>startGame(newCity));
-}
-
-function showCityIntro(city,callback){
-  const cr=document.getElementById('city-reveal');
-  cr.style.display='flex';
-  document.getElementById('city-reveal-name').textContent=city.emoji+' '+city.name.toUpperCase();
-  document.getElementById('city-reveal-year').textContent=city.desc;
-  drawSkyline(city.name,city.color);
-  setTimeout(()=>document.getElementById('city-skyline').classList.add('visible'),200);
-  setTimeout(()=>{
-    document.getElementById('city-skyline').classList.remove('visible');
-    setTimeout(()=>{cr.style.display='none';callback();},1500);
-  },3500);
-}
-
-function startGame(city){
-  state={
-    city:city,
-    cityIndex:state.cityIndex,
-    lifeCount:state.lifeCount,
-    age:0,
-    health:100,
-    money:50,
-    happiness:50,
-    edu:0,
-    social:50,
-    career:0,
-    memories:[],
-    eventsUsed:[],
-    currentEvent:null,
-    birthEventDone:false,
-    deathCause:null,
-  };
-  document.getElementById('game-ui').style.display='flex';
-  updateStats();
-  addMemory(`Te-ai născut în ${city.name}`);
-  const bg=document.getElementById('game-bg');
-  bg.innerHTML='';
-  for(let i=0;i<8;i++){
-    const p=document.createElement('div');
-    p.className='bg-particle';
-    const size=100+Math.random()*200;
-    p.style.cssText=`width:${size}px;height:${size}px;left:${Math.random()*100}%;top:${Math.random()*100}%;animation-delay:${Math.random()*4}s;animation-duration:${6+Math.random()*6}s`;
-    bg.appendChild(p);
-  }
-  // Decide birth event
-  let birthEvent;
-  if(city.isPetrosani){
-    birthEvent=EVENTS_PETROSANI_BIRTH;
-  } else {
-    birthEvent=JSON.parse(JSON.stringify(EVENTS_NORMAL_BIRTH));
-    birthEvent.text=birthEvent.text.replace('{city}',city.name);
-  }
-  renderEvent(birthEvent);
-}
-
-window.addEventListener('load',()=>{
-  initStars();
-  document.getElementById('intro-city-name').textContent='📍 '+CITIES[0].name.toUpperCase();
-  setTimeout(()=>{
-    document.getElementById('intro-scene').style.transition='opacity 0.5s';
-    document.getElementById('intro-scene').style.opacity='0';
-    setTimeout(()=>{
-      document.getElementById('intro-scene').style.display='none';
-      showCityIntro(CITIES[0],()=>startGame(CITIES[0]));
-    },500);
-  },5500);
-});
+// Load sections on load
+window.onload=()=>{
+  updateUI();
+};
 </script>
 </body>
 </html>
